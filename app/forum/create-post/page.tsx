@@ -130,7 +130,7 @@ export default function Page() {
         disabled={updating}
         
       >
-        <span>{updating ?  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "post"}</span>
+        <span>{updating ?  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Post it!"}</span>
       </Button>
     </main>
   );
