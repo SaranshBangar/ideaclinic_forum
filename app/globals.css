@@ -75,6 +75,9 @@
   }
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 :root {
   overflow-x: hidden;
 }
@@ -160,4 +163,50 @@
     border-top: 2px solid rgba(#0D0D0D, 0.1);
     margin: 2rem 0;
   }
+}
+
+ol {
+  list-style-type: decimal;
+  margin-left: 1rem;
+}
+
+ul {
+  list-style-type: disc;
+  margin-left: 1rem;
+}
+
+code {
+  background-color: rgba(#616161, 0.1);
+  color: #616161;
+}
+
+pre {
+  background: #0D0D0D;
+  color: #FFF;
+  font-family: 'JetBrainsMono', monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+
+  code {
+    color: inherit;
+    padding: 0;
+    background: none;
+    font-size: 0.8rem;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid rgba(#0D0D0D, 0.1);
+}
+
+hr {
+  border: none;
+  border-top: 2px solid rgba(#0D0D0D, 0.1);
+  margin: 2rem 0;
 }
