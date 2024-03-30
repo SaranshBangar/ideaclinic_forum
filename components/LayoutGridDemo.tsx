@@ -2,7 +2,7 @@
 import { LayoutGrid } from "./ui/layout-grid";
 import { useToast } from "@/components/ui/use-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import {  useMemo, useRef, useState } from "react";
+import {  useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { Edit2Icon } from "lucide-react";
 import {
@@ -17,6 +17,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "./ui/input";
+import { useRouter } from "next/navigation";
 
 interface UserAcc {
     id: string;
@@ -29,13 +30,19 @@ interface UserAcc {
     bio: string;
     title: string;
 }
+interface UserPost{
+  id: string;
+  title: string;
+}
 
 export function LayoutGridDemo({ userId } : { userId: string }) {
 
     const supabase = createClientComponentClient();
     const { toast } = useToast();
+    const router = useRouter();
 
     const [userData, setUserData] = useState<UserAcc | null>(null);
+    const [userPosts, setUserPosts] = useState<UserPost[] | null>(null);
 
     useMemo(() => {
         const getUserData = async () => {
@@ -69,23 +76,46 @@ export function LayoutGridDemo({ userId } : { userId: string }) {
 
     }, [userId]);
 
-    // This skeleton displays the top 2 blogs written by the user, I have added placeholder text here since we currently don't have access to that data
     const SkeletonOne = () => {
+      useEffect(() => {
+        const getPostTitles = async () => {
+          let { data: posts, error } = await supabase
+            .from('posts')
+            .select('id, title')
+            .eq('creator_id', userId)
+            .range(0, 4)
+
+          if (error) {
+            console.log('error', error)
+            toast({
+              title: 'Error',
+              description: error.message,
+              duration: 5000,
+              variant:'destructive'
+            })
+          } else {
+            console.log('data', posts || 'No data')
+            setUserPosts(posts);
+          }
+        }
+
+        getPostTitles();
+      } , [])
+
+
         return (
           <div>
-            <p className="font-bold text-4xl text-white">_Top2Blogs_</p>
-            <div className="flex flex-row justify-evenly flex-wrap mt-4 mb-4 gap-5">
-              <div className="w-[150px] h-[150px] bg-slate-500 border-2 rounded-md flex justify-center items-center">
-                <h2 className="text-md text-gray-800 font-semibold">Blog 1 Heading</h2>
-              </div>
-              <div className="w-[150px] h-[150px] bg-slate-500 border-2 rounded-md flex justify-center items-center">
-                <h2 className="text-md text-gray-800 font-semibold">Blog 2 Heading</h2>
-              </div>
+            <p className="font-bold text-4xl text-white">My Posts</p>
+            <div className="grid grid-cols-3 justify-evenly mt-4 mb-4 gap-5 overflow-y-auto">
+              {userPosts && userPosts.map((post) => (
+                <div key={post.id} className=" bg-[#090909] border-2 rounded-md flex justify-center items-center" onClick={() => router.push(`/forum/post/${post.id}`)}>
+                  <h2 className="text-md text-white font-semibold">{post.title}</h2>
+                </div>
+              ))}
             </div>
           </div>
         );
       };
-      // This skeleton displays the username, title and department, the photo will be replaced by the image submitted by the user at later stage
       const SkeletonTwo = () => {
         const [dragActive, setDragActive] = useState<boolean>(false);
         const inputRef = useRef<any>(null);
