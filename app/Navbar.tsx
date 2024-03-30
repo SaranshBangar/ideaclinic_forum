@@ -40,7 +40,7 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
 
 function NavbarFixed({ children }: { children: React.ReactNode }) {
   return (
-    <nav className="fixed z-10 flex justify-between w-full px-8 py-2 top-4">
+    <nav className="fixed z-[10000] flex justify-between w-full px-8 py-2 top-4">
       <Link href="/" className="flex items-center gap-2 text-white">
         <svg
           className="rotate-180"
@@ -82,7 +82,7 @@ function NavbarScroll({ isScrolling }: NavbarScrollProps) {
       animate={isScrolling ? 'animate' : 'initial'}
       exit="exit"
       variants={NavAnimations}
-      className="fixed z-10 flex justify-between px-4 py-2 rounded-full ts-bg left-1/2 top-10"
+      className="fixed z-[10000] flex justify-between px-4 py-2 rounded-full ts-bg left-1/2 top-10"
     >
       <ul className="flex items-center">
         <li className="px-2 text-white text-md">
