@@ -7,6 +7,7 @@ import { EditorProvider, useCurrentEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 import { Button } from './ui/button'
+import { Bold, Italic, Pilcrow, Strikethrough, Code, MessageSquareQuote, Minus, WrapText, Undo2, Redo2, Heading1 } from 'lucide-react'
 
 const MenuBar = ({setContent} : { setContent : any}) => {
     const { editor } = useCurrentEditor()
@@ -16,7 +17,7 @@ const MenuBar = ({setContent} : { setContent : any}) => {
   }
 
   return (
-    <>
+    <div className='w-full bg-black p-1 rounded-t-xl'>
       <Button
        variant='ghost'
         onClick={() => editor.chain().focus().toggleBold().run()}
@@ -29,9 +30,10 @@ const MenuBar = ({setContent} : { setContent : any}) => {
         }
         className={editor.isActive('bold') ? 'is-active' : ''}
       >
-        bold
+        <Bold />
       </Button>
       <Button
+        variant='ghost'
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={
           !editor.can()
@@ -42,9 +44,10 @@ const MenuBar = ({setContent} : { setContent : any}) => {
         }
         className={editor.isActive('italic') ? 'is-active' : ''}
       >
-        italic
+        <Italic />
       </Button>
       <Button
+        variant='ghost'
         onClick={() => editor.chain().focus().toggleStrike().run()}
         disabled={
           !editor.can()
@@ -55,9 +58,10 @@ const MenuBar = ({setContent} : { setContent : any}) => {
         }
         className={editor.isActive('strike') ? 'is-active' : ''}
       >
-        strike
+        <Strikethrough />
       </Button>
       <Button
+        variant='ghost'
         onClick={() => editor.chain().focus().toggleCode().run()}
         disabled={
           !editor.can()
@@ -68,27 +72,29 @@ const MenuBar = ({setContent} : { setContent : any}) => {
         }
         className={editor.isActive('code') ? 'is-active' : ''}
       >
-        code
+        <Code />
       </Button>
-      <Button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
+      {/* <Button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
         clear marks
       </Button>
       <Button onClick={() => editor.chain().focus().clearNodes().run()}>
         clear nodes
-      </Button>
+      </Button> */}
       <Button
+        variant='ghost'
         onClick={() => editor.chain().focus().setParagraph().run()}
         className={editor.isActive('paragraph') ? 'is-active' : ''}
-      >
-        paragraph
+        >
+        <Pilcrow />
       </Button>
-      <Button
+     <Button
+        variant='ghost'
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
       >
-        h1
+        <Heading1 />
       </Button>
-      <Button
+       {/* <Button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
       >
@@ -117,8 +123,8 @@ const MenuBar = ({setContent} : { setContent : any}) => {
         className={editor.isActive('heading', { level: 6 }) ? 'is-active' : ''}
       >
         h6
-      </Button>
-      <Button
+      </Button> */}
+      {/* <Button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive('bulletList') ? 'is-active' : ''}
       >
@@ -129,26 +135,28 @@ const MenuBar = ({setContent} : { setContent : any}) => {
         className={editor.isActive('orderedList') ? 'is-active' : ''}
       >
         ordered list
-      </Button>
-      <Button
+      </Button> */}
+      {/* <Button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         className={editor.isActive('codeBlock') ? 'is-active' : ''}
       >
         code block
-      </Button>
+      </Button> */}
       <Button
+        variant='ghost'
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={editor.isActive('blockquote') ? 'is-active' : ''}
       >
-        blockquote
+        <MessageSquareQuote />
       </Button>
-      <Button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-        horizontal rule
+      <Button variant='ghost' onClick={() => editor.chain().focus().setHorizontalRule().run()}>
+        <Minus />
       </Button>
-      <Button onClick={() => editor.chain().focus().setHardBreak().run()}>
-        hard break
+      <Button variant='ghost' onClick={() => editor.chain().focus().setHardBreak().run()}>
+        <WrapText />
       </Button>
       <Button
+        variant='ghost'
         onClick={() => editor.chain().focus().undo().run()}
         disabled={
           !editor.can()
@@ -158,9 +166,10 @@ const MenuBar = ({setContent} : { setContent : any}) => {
             .run()
         }
       >
-        undo
+        <Undo2 />
       </Button>
       <Button
+        variant='ghost'
         onClick={() => editor.chain().focus().redo().run()}
         disabled={
           !editor.can()
@@ -170,16 +179,16 @@ const MenuBar = ({setContent} : { setContent : any}) => {
             .run()
         }
       >
-        redo
+        <Redo2 />
       </Button>
-      <Button
+      {/* <Button
         onClick={() => editor.chain().focus().setColor('#958DF1').run()}
         className={editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : ''}
       >
         purple
-      </Button>
-      <Button onClick={setContent(editor.getHTML())}>export to html</Button>
-    </>
+      </Button> */}
+      <Button onClick={setContent(editor.getHTML())} className='hidden'>export to html</Button>
+    </div>
   )
 }
 
