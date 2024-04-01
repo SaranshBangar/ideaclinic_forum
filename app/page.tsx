@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import { HeroParallax } from "@/components/hero-parallax";
 import InfiniteMovingTestimonials from "@/components/InfiniteMovingTestimonials";
 
@@ -79,6 +80,9 @@ export default async function Index() {
       <section>
         <InfiniteMovingTestimonials />
       </section>
+      <footer>
+        <Footer />
+      </footer>
     </main>
   );
 }

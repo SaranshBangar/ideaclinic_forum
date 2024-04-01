@@ -136,7 +136,7 @@ export default function Page() {
                     <Loader2 className="mr-2 h-64 w-64 animate-spin text-white" />
                 ) : (
                     post && (
-                        <section className="text-white w-3/5">
+                        <section className="text-white w-3/5 mb-8">
                             <h1 className=" font-arimo font-semibold text-5xl mt-6">{post.title}</h1>
                             <h3 className="font-arimo font-medium text-xl mb-12 ml-1">{new Date(post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
                             <div className=" border-y border-[#4A4A4A] py-4 my-12 flex flex-row justify-between gap-2">
