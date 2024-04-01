@@ -1,7 +1,6 @@
 import Image from "next/image"
 import deiLogo from "@/public/DEI.png"
-import { FaLinkedin, FaInstagram } from "react-icons/fa";
-import { IoMdMail } from "react-icons/io";
+import { Instagram, Linkedin, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -67,13 +66,13 @@ const Footer = () => {
             {/* All of the links refer to the home page as of now */}
             <div className="flex flex-row justify-evenly items-center w-1/2 mt-4 mb-3">
                 <a href="/" className="border-2 border-white rounded-full p-2 hover:bg-gray-700 hover:shadow-sm ease-in-out duration-200 transition-all">
-                    <FaLinkedin className="w-[30px] h-[30px]" />
+                    <Linkedin className="w-[30px] h-[30px]" />
                 </a>
                 <a href="/" className="border-2 border-white rounded-full p-2 hover:bg-gray-700 hover:shadow-sm ease-in-out duration-200 transition-all">
-                    <IoMdMail className="w-[30px] h-[30px]" />
+                    <Mail className="w-[30px] h-[30px]" />
                 </a>
                 <a href="/" className="border-2 border-white rounded-full p-2 hover:bg-gray-700 hover:shadow-sm ease-in-out duration-200 transition-all">
-                    <FaInstagram className="w-[30px] h-[30px]" />
+                    <Instagram className="w-[30px] h-[30px]" />
                 </a>
             </div>
             {/* All of the links refer to the home page as of now */}
