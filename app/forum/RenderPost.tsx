@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Heart } from 'lucide-react';
+import { Heart, Loader2, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useMemo, useState } from 'react'
@@ -27,36 +27,18 @@ const RenderPost = () => {
     const { toast } = useToast();
 
     const [posts, setPosts] = useState<Post[]>([]);
+    const [isLiked, setIsLiked] = useState(false);
+    const [isLiking, setIsLiking] = useState(false);
 
-    useMemo(() => {
-        const fetchPosts = async () => {
-            try {
-                let { data, error } = await supabase
-                .from('posts')
-                .select('id, creator_id, title, likes, created_at, profiles( avatar_url )')
-                .range(0, 9)
-                .order('created_at', { ascending: false })
-                
-                if (error) {
-                    console.log('error', error)
-                    toast({
-                        title: 'Error',
-                        description: error.message,
-                        duration: 5000,
-                        variant: 'destructive'
-                    })
-                } else {
-                    if (data) {
-                        console.log('posts', data || 'No posts')
-                        //@ts-ignore
-                        setPosts(data);
-                    } else {
-                        console.log('No posts found')
-                    }
-                }
-                
-                
-            } catch (error : any) {
+    const fetchPosts = async () => {
+        try {
+            let { data, error } = await supabase
+            .from('posts')
+            .select('id, creator_id, title, likes, created_at, profiles( avatar_url )')
+            .range(0, 9)
+            .order('created_at', { ascending: false })
+            
+            if (error) {
                 console.log('error', error)
                 toast({
                     title: 'Error',
@@ -64,12 +46,88 @@ const RenderPost = () => {
                     duration: 5000,
                     variant: 'destructive'
                 })
+            } else {
+                if (data) {
+                    console.log('posts', data || 'No posts')
+                    //@ts-ignore
+                    setPosts(data);
+                } else {
+                    console.log('No posts found')
+                }
             }
             
+            
+        } catch (error : any) {
+            console.log('error', error)
+            toast({
+                title: 'Error',
+                description: error.message,
+                duration: 5000,
+                variant: 'destructive'
+            })
         }
-
+        
+    }
+    useMemo(() => {
         fetchPosts();
     }, [])
+
+    const handleShare = (url : string) => {
+        if (navigator.share) {
+          navigator.share({
+            title: 'Check out this post from Idea Clinic!',
+            url: url,
+          })
+          .then(() => console.log('Successful share'))
+          .catch((error) => console.log('Error sharing', error));
+        } else {
+          console.log('Share not supported on this browser, copy this link:', url);
+        }
+      }
+
+    const handleLike = async (post : Post) => {
+        setIsLiking(true);
+        const {data : { user } } =  await supabase.auth.getUser();
+        if(user && post.likes.includes(user.id)) {
+            setIsLiked(true);
+            console.log('User has liked this post')
+        }
+        if (!isLiked && post){
+            try {
+                await supabase
+                .from('posts')
+                .update({ likes: [...post.likes, user?.id] })
+                .eq('id', post.id)
+                setIsLiked(true);
+            } catch (error : any) {
+                toast({
+                    title: 'Error',
+                    description: error.message,
+                    duration: 5000,
+                    variant: 'destructive'
+                })
+            }
+        }
+        else if (isLiked && post) {
+            try {
+                await supabase
+                .from('posts')
+                .update({ likes: post.likes.filter((id) => id !== user?.id) })
+                .eq('id', post.id)
+                setIsLiked(false);
+            } catch (error : any) {
+                toast({
+                    title: 'Error',
+                    description: error.message,
+                    duration: 5000,
+                    variant: 'destructive'
+                })
+            }
+        }
+        fetchPosts();
+        setIsLiking(false);
+        
+      }
 
 
   return (
@@ -89,7 +147,10 @@ const RenderPost = () => {
                             <p className="text-gray-400">{new Date(post.created_at).toLocaleDateString()}</p>
                         </Link>
                     </span>
-                    <Button variant='ghost' className="hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400"><Heart /> {post.likes.length}</Button>
+                    <span className="flex flex-row gap-2">
+                        <Button variant='ghost' onClick={() => handleShare(`/forum/post/${post.id}`)} className="hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400"><Share2 /></Button>
+                        <Button variant='ghost' onClick={() => handleLike(post)} className={`${isLiked ? 'bg-white' : '' }hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400`}>{ isLiking ? ( <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" /> ) : ( <Heart className=" text-red-400" /> ) } {post.likes.length}</Button>
+                    </span>
                 </div>
             ))}
         </div>

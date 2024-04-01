@@ -30,42 +30,50 @@ export default function Page() {
     const supabase = createClientComponentClient();
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(true);
-
+    const [isLiked, setIsLiked] = useState(false);
+    const [isLiking, setIsLiking] = useState(false);
     const { toast } = useToast();
 
-    useEffect(() => {
-        const fetchPost = async () => {
-            try {
-                setLoading(true);
-                let { data: posts, error } = await supabase
-                .from('posts')
-                .select('creator_id, title, content, likes, created_at, profiles( avatar_url, username, title, dept)')
-                .eq('id', slug)
-                
-                if (error) {
-                    console.log('error', error)
-                } else {
-                    if (posts) {
-                        console.log('posts', posts || 'No posts')
-                        //@ts-ignore
-                        setPost(posts[0]);
-                    } else {
-                        console.log('No posts found')
+    const fetchPost = async () => {
+        try {
+            setLoading(true);
+            let { data: posts, error } = await supabase
+            .from('posts')
+            .select('creator_id, title, content, likes, created_at, profiles( avatar_url, username, title, dept)')
+            .eq('id', slug)
+            
+            if (error) {
+                console.log('error', error)
+            } else {
+                if (posts) {
+                    console.log('posts', posts || 'No posts')
+                    //@ts-ignore
+                    setPost(posts[0]);
+                    if(posts[0].likes.includes((await supabase.auth.getUser()).data.user?.id)) {
+                        setIsLiked(true);
+                        console.log('User has liked this post')
                     }
+                } else {
+                    console.log('No posts found')
                 }
-                
-            } catch (error : any) {
-                toast({
-                    title: 'Error',
-                    description: error.message,
-                    duration: 5000,
-                    variant: 'destructive'
-                })
             }
-            setLoading(false);
+            
+        } catch (error : any) {
+            toast({
+                title: 'Error',
+                description: error.message,
+                duration: 5000,
+                variant: 'destructive'
+            })
         }
+        setLoading(false);
+    }
+
+    useEffect(() => {        
         fetchPost();
     }, [])
+
+    
 
     const handleShare = (url : string) => {
         if (navigator.share) {
@@ -78,6 +86,46 @@ export default function Page() {
         } else {
           console.log('Share not supported on this browser, copy this link:', url);
         }
+      }
+
+      const handleLike = async () => {
+        setIsLiking(true);
+        const {data : { user } } =  await supabase.auth.getUser();
+        if (!isLiked && post){
+            try {
+                await supabase
+                .from('posts')
+                .update({ likes: [...post.likes, user?.id] })
+                .eq('id', slug)
+                setIsLiked(true);
+            } catch (error : any) {
+                toast({
+                    title: 'Error',
+                    description: error.message,
+                    duration: 5000,
+                    variant: 'destructive'
+                })
+            }
+        }
+        else if (isLiked && post) {
+            try {
+                await supabase
+                .from('posts')
+                .update({ likes: post.likes.filter((id) => id !== user?.id) })
+                .eq('id', slug)
+                setIsLiked(false);
+            } catch (error : any) {
+                toast({
+                    title: 'Error',
+                    description: error.message,
+                    duration: 5000,
+                    variant: 'destructive'
+                })
+            }
+        }
+        fetchPost();
+        setIsLiking(false);
+        
       }
 
 
@@ -104,7 +152,7 @@ export default function Page() {
                                 </Link>
                                 <span className="flex flex-row gap-2">
                                     <Button variant='ghost' onClick={() => handleShare(window.location.href)} className="hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400"><Share2 /></Button>
-                                    <Button variant='ghost' className="hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400"><Heart /> {post.likes.length}</Button>
+                                    <Button variant='ghost' onClick={() => handleLike()} className={`${isLiked ? 'bg-white' : '' }hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400`}>{ isLiking ? ( <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" /> ) : ( <Heart className=" text-red-400" /> ) } {post.likes.length}</Button>
                                 </span>
                             </div>
                             {/* <p>{post.content}</p> */}
