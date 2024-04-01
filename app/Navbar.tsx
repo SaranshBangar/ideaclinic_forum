@@ -84,7 +84,7 @@ function NavbarScroll({ isScrolling }: NavbarScrollProps) {
       variants={NavAnimations}
       className="fixed z-[10000] flex justify-between px-4 py-2 rounded-full ts-bg left-1/2 top-10"
     >
-      <ul className="flex items-center">
+      <ul className="flex items-center list-none">
         <li className="px-2 text-white text-md">
           <Link href={'/team'}>Team</Link>
         </li>
