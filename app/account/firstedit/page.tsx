@@ -129,7 +129,7 @@ export default function Page() {
           description: 'Your profile has been updated.',
         })
 
-        // router.push('/password-change')
+        router.push('/password-change')
       }
 
       console.log(data)
