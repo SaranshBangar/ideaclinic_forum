@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Interweave } from "interweave";
-import { Heart, Loader2, Share2 } from "lucide-react";
+import { CircleUserRound, Heart, Loader2, Share2 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -143,7 +143,7 @@ export default function Page() {
                                 <Link className="flex flex-row gap-2 font-arimo font-medium text-sm text-[#9D9D9D] items-center" href={`/account/${post.creator_id}`}>
                                     <Avatar className='z-[100] hover:border'>
                                             <AvatarImage src={post.profiles.avatar_url} className=" object-cover object-center" />
-                                            <AvatarFallback>{post.creator_id}</AvatarFallback>
+                                            <AvatarFallback><CircleUserRound /></AvatarFallback>
                                     </Avatar>
                                     <span>
                                         <p>{post.profiles.username}</p>

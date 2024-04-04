@@ -1,11 +1,12 @@
 'use client';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { CircleUserRound } from "lucide-react";
 import { useMemo, useState } from "react";
 
 export default function AvatarComponent({userId}: {userId: string}) {
     const supabase = createClientComponentClient();
-    const [ avatar_url, setAvatar_url ] = useState("https://github.com/shadcn.png");
+    const [ avatar_url, setAvatar_url ] = useState("");
 
     const fetchAvatar = async () => {
         const { data, error } = await supabase
@@ -29,7 +30,7 @@ export default function AvatarComponent({userId}: {userId: string}) {
     return (
         <Avatar>
             <AvatarImage src={avatar_url} className="object-cover object-center zoom-in" />
-            <AvatarFallback>IC</AvatarFallback>
+            <AvatarFallback><CircleUserRound /></AvatarFallback>
         </Avatar>
     )
 }

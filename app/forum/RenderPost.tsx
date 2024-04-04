@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Heart, Loader2, Share2 } from 'lucide-react';
+import { CircleUserRound, Heart, Loader2, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useMemo, useState } from 'react'
@@ -139,7 +139,7 @@ const RenderPost = () => {
                         <Avatar className='z-[100]'>
                             <Link href={`/account/${post.creator_id}`}>
                                 <AvatarImage src={post.profiles.avatar_url} className=" object-cover object-center" />
-                                <AvatarFallback>{post.id}</AvatarFallback>
+                                <AvatarFallback><CircleUserRound /></AvatarFallback>
                             </Link>
                         </Avatar>
                         <Link href={`/forum/post/${post.id}`}>

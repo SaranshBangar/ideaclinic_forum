@@ -65,7 +65,7 @@ export default function Page() {
       try {
         const { data, error } = await supabase
           .from("posts")
-          .insert({ creator_id: userId, content: content, title: title });
+          .insert({ creator_id: userId, content: content, title: title, likes: []});
         
         if (error) {
           toast({
