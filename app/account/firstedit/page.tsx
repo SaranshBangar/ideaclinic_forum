@@ -8,6 +8,13 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -228,11 +235,24 @@ export default function Page() {
                     <FormItem>
                       <Label className="text-white">Your Title</Label>
                       <FormControl>
-                        <Input
+                        {/* <Input
                           placeholder="Associate Professor"
                           type="text"
                           {...field}
-                        />
+                        /> */}
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <SelectTrigger className="text-black w-full">
+                            <SelectValue  placeholder="Select your Title " />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="HOD">HOD</SelectItem>
+                            <SelectItem value="Professor">Professor</SelectItem>
+                            <SelectItem value="Associate Professor">Associate Professor</SelectItem>
+                            <SelectItem value="Assistant Professor">Assistant Professor</SelectItem>
+                            <SelectItem value="Research Scholar">Research Scholar</SelectItem>
+                            <SelectItem value="Student">Student</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormDescription>
                         This is your current title.
