@@ -4,11 +4,33 @@ import { motion } from "framer-motion";
 
 import { LampContainer } from "@/components/ui/lamp";
 import RenderPost from "./RenderPost";
+import { useMemo } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 
 
 export default async function ProtectedPage() {
  
+  const supabase = createClientComponentClient();
+  const router = useRouter();
+  useMemo(() => {
+    const fetchUser = async () => {
+      const {
+          data: { user },
+      } = await supabase.auth.getUser();
 
+      if (user) {
+          console.log("User found");
+          // console.log(user);
+          // setuserId(user.id);
+      } else {
+          console.log("No user found");
+          router.push("/login");
+      }
+    };
+
+    fetchUser();
+  }, [])
 
 
   return (
