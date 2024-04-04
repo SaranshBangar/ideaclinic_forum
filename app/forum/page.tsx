@@ -12,7 +12,7 @@ export default async function ProtectedPage() {
 
 
   return (
-    <main className="flex-1 w-full flex flex-col gap-20 items-center bg-[#090909] text-white">
+    <main className="w-full flex flex-col justify-center h-screen gap-20 items-center bg-[#090909] text-white overflow-hidden">
       
 
       <LampContainer>
@@ -24,12 +24,12 @@ export default async function ProtectedPage() {
             duration: 0.8,
             ease: "easeInOut",
           }}
-          className="mt-8 mb-12 bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
+          className="overflow-hidden mb-12 bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
         >
           Discover Ideas
         </motion.h1>
-        <RenderPost />
       </LampContainer>
+      <RenderPost />
 
 
       

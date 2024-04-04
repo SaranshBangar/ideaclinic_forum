@@ -369,7 +369,7 @@ export function LayoutGridDemo({ userId } : { userId: string }) {
           content: <SkeletonTwo />,
           className: "col-span-1",
           thumbnail:
-          userData && userData.avatar_url ? userData.avatar_url : "",
+          userData && userData.avatar_url ? userData.avatar_url : "https://rzyymqwpkbvqhzkyvbsx.supabase.co/storage/v1/object/public/avatars/users/user_acc.png",
         },
         {
           id: 3,
