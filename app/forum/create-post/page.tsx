@@ -2,16 +2,15 @@
 import React from "react";
 import Tiptap from "@/components/Tiptap";
 import { BackgroundBeams } from "@/components/ui/background-beams";
-import { Interweave } from "interweave";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { FormEvent } from "react";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { ComboboxDropdownMenu } from "./ComboBox";
 
 function load(value: any) {
   if (value == true) {
@@ -24,6 +23,8 @@ function load(value: any) {
 export default function Page() {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
+  const [label, setLabel] = useState("Other");
+  const [label_color, setLabelColor] = useState("#CCCCCC");
   const [updating, setUpdating] = useState(false);
   const [userId, setuserId] = useState("");
   const router = useRouter();
@@ -65,8 +66,8 @@ export default function Page() {
       try {
         const { data, error } = await supabase
           .from("posts")
-          .insert({ creator_id: userId, content: content, title: title, likes: []});
-        
+          .insert({ creator_id: userId, content: content, title: title, likes: [], label: label, label_color: label_color});
+          
         if (error) {
           toast({
             title: "Error",
@@ -79,6 +80,7 @@ export default function Page() {
             title: "Post Created",
             variant: "success",
           })
+          console.log(data);
         }       
         
       } catch (error : any) {
@@ -100,26 +102,35 @@ export default function Page() {
       <h1 className="relative z-10 text-lg md:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
         Create Your Post
       </h1>
-      <form method="post" className="w-1/2 my-4 z-[1000]">
-        <Label htmlFor="title" className="mt-4 text-lg font-thin text-white">
-          Post Title
-        </Label>
-        <Input
-          placeholder="Cool title here"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="text-white bg-black bg-opacity-80"
-        />
+      <form method="post" className="w-10/12 flex flex-row my-4 z-[1000] justify-evenly items-center">
+        <div className="w-full">
+          <Label htmlFor="title" className="mt-4 text-lg font-thin text-white">
+            Post Title
+          </Label>
+          <Input
+            placeholder="Cool title here"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="text-white bg-black bg-opacity-80 mt-3"
+          />
+
+        </div>
+        <div className="px-2">
+          <Label htmlFor="label" className="mb-3 text-lg justify-end w-full flex font-thin text-white">
+            Choose a label
+          </Label>
+          <ComboboxDropdownMenu
+            label={label}
+            setLabel={setLabel}
+            color={label_color}
+            setColor={setLabelColor}
+          />
+        </div>
       </form>
       <div className="z-[1000] w-full relative backdrop-blur-md text-white flex flex-row justify-center items-center my-4 md:px-6 lg:px-12 gap-2">
         <div>
           <Tiptap setContent={setContent} />
         </div>
-        
-        {/* <Interweave
-          content={content}
-          className=" p-2 border border-white rounded-md shadow-sm shadow-black m-2 relative"
-        /> */}
       </div>
       <BackgroundBeams />
 

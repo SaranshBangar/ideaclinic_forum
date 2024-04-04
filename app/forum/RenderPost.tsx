@@ -9,16 +9,19 @@ import {
     TooltipTrigger,
   } from "@/components/ui/tooltip"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { CircleUserRound, Heart, Loader2, Share2 } from 'lucide-react';
+import { CircleUserRound, Heart, Loader2, Share2, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useMemo, useState } from 'react'
+import { Badge } from '@/components/ui/badge';
 
 interface Post {
     id: string;
     creator_id: string;
     title: string;
     likes: string[];
+    label: string;
+    label_color: string;
     created_at: string;
     profiles: {
         avatar_url: string;
@@ -40,7 +43,7 @@ const RenderPost = () => {
         try {
             let { data, error } = await supabase
             .from('posts')
-            .select('id, creator_id, title, likes, created_at, profiles( avatar_url, username )')
+            .select('id, creator_id, title, likes, label, label_color, created_at, profiles( avatar_url, username )')
             .range(0, 9)
             .order('created_at', { ascending: false })
             
@@ -137,8 +140,8 @@ const RenderPost = () => {
 
 
   return (
-    <section className='w-screen z-[1000] flex items-center justify-center'>
-        <div className="flex flex-col gap-4 w-10/12 ">
+    <section className='w-screen z-[1000] absolute bottom-1 flex items-center justify-center max-h-[600px] overflow-y-auto  p-2'>
+        <div className="flex flex-col gap-4 w-10/12 backdrop-blur-md rounded-md">
             {posts.map((post) => (
                 <div key={post.id}  className="bg-[#090909] w-full flex flex-row p-4 rounded-md shadow-md justify-between items-center">
                     <span className='flex flex-row w-1/3 justify-start gap-6 items-center'>
@@ -161,6 +164,9 @@ const RenderPost = () => {
                             <h3 className="text-xl font-semibold text-white">{post.title}</h3>
                             <p className="text-gray-400">{new Date(post.created_at).toLocaleDateString()}</p>
                         </Link>
+                    </span>
+                    <span className='w-full flex flex-row items-center '>
+                        <Badge variant='secondary' style={{background:post.label_color}} className={` flex flex-row gap-1 text-nowrap text-[#fffaed]`}><Tag/>{post.label}</Badge>
                     </span>
                     <span className="flex flex-row gap-2">
                         <Button variant='ghost' onClick={() => handleShare(`/forum/post/${post.id}`)} className="hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400"><Share2 /></Button>

@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { PlusCircleIcon, User, UserCog } from "lucide-react";
+import { SquarePen, User, UserCog } from "lucide-react";
 import { cookies } from "next/headers";
 import AvatarComponent from "./Avatar";
 
@@ -54,7 +54,7 @@ export default async function AuthButton() {
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Link href='/forum/create-post' className="flex items-center gap-1">
-              <PlusCircleIcon className="w-[12px] mr-1" /> New Post
+              <SquarePen  className="w-[12px] mr-1" /> New Post
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
