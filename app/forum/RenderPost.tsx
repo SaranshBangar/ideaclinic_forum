@@ -90,7 +90,7 @@ const RenderPost = () => {
           .then(() => console.log('Successful share'))
           .catch((error) => console.log('Error sharing', error));
         } else {
-          console.log('Share not supported on this browser, copy this link:', url);
+          console.log('Share not supported on this browser, copy this link:', window.location.href);
         }
       }
 
