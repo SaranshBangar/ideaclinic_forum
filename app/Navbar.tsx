@@ -92,7 +92,7 @@ function NavbarScroll({ isScrolling }: NavbarScrollProps) {
           <Link href={'/forum'}>Forum</Link>
         </li>
         <li className="px-4 py-2 ml-2 text-white bg-black rounded-full text-md ">
-          <Link href={'/login'}>Login/Sign Up</Link>
+          <Link href={'/account'}>Account</Link>
         </li>
       </ul>
     </motion.nav>

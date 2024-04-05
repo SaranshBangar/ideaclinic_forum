@@ -9,7 +9,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 
 
-export default async function ProtectedPage() {
+export default function Page() {
  
   const supabase = createClientComponentClient();
   const router = useRouter();
