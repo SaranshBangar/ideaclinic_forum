@@ -120,7 +120,8 @@ export default function Comments({
             ) : (
                 showComments.length > 0 ? (
                     showComments.map((comment: Comment) => (
-                        <div key={comment.id} className="w-3/5 my-6 border-l border-teal-800 rounded-md p-2 py-3 text-white flex flex-col" >
+                        <div key={comment.id} className="w-3/5 my-6 border-l border-teal-800 rounded-md p-2 py-3 shadow-sm shadow-black text-white flex flex-col" >
+
                             <span className="w-full flex flex-row gap-2 items-center mb-4">
                                 <Avatar className='z-[100] w-8 h-8'>
                                     <Link href={`/account/${comment.creatorid}`}>
