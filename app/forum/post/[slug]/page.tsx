@@ -10,6 +10,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { set } from "react-hook-form";
+import Comments from "./Comments";
+import MakeComment from "./MakeComment";
 
 interface Post {
     creator_id: string;
@@ -34,7 +36,9 @@ export default function Page() {
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(true);
     const [isLiked, setIsLiked] = useState(false);
+    const [userId, setUserId] = useState<string>('');
     const [isLiking, setIsLiking] = useState(false);
+    const [reloadComments, setReloadComments] = useState(false);
     const { toast } = useToast();
 
     const fetchPost = async () => {
@@ -52,9 +56,9 @@ export default function Page() {
                     console.log('posts', posts || 'No posts')
                     //@ts-ignore
                     setPost(posts[0]);
-                    if(posts[0].likes.includes((await supabase.auth.getUser()).data.user?.id)) {
-                        setIsLiked(true);
-                        console.log('User has liked this post')
+                    const {data : { user } } =  await supabase.auth.getUser();
+                    if(user){
+                        setUserId(user.id);
                     }
                 } else {
                     console.log('No posts found')
@@ -94,7 +98,8 @@ export default function Page() {
       const handleLike = async () => {
         setIsLiking(true);
         const {data : { user } } =  await supabase.auth.getUser();
-        if (!isLiked && post){
+        
+        if ( post && !post.likes.includes(userId) ){
             try {
                 await supabase
                 .from('posts')
@@ -110,7 +115,7 @@ export default function Page() {
                 })
             }
         }
-        else if (isLiked && post) {
+        else if (post) {
             try {
                 await supabase
                 .from('posts')
@@ -131,9 +136,13 @@ export default function Page() {
         
       }
 
+      const triggerReload = () => {
+            setReloadComments(prevState => !prevState);
+      }
+
 
     return (
-        <main className="bg-[#121212] min-h-screen overflow-y-auto flex flex-col pt-24 items-center">
+        <main className="bg-[#121212] min-h-screen overflow-y-auto flex flex-col py-24 items-center">
             {
                 loading ? (
                     <Loader2 className="mr-2 h-64 w-64 animate-spin text-white" />
@@ -156,7 +165,7 @@ export default function Page() {
                                 </Link>
                                 <span className="flex flex-row gap-2">
                                     <Button variant='ghost' onClick={() => handleShare(window.location.href)} className="hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400"><Share2 /></Button>
-                                    <Button variant='ghost' onClick={() => handleLike()} className={`${isLiked ? 'bg-white' : '' }hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400`}>{ isLiking ? ( <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" /> ) : ( <Heart className=" text-red-400" /> ) } {post.likes.length}</Button>
+                                    <Button variant='ghost' onClick={() => handleLike()} className={`${isLiked ? 'bg-white' : '' }hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400`}>{ isLiking ? ( <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" /> ) : ( <Heart className={`${ post.likes.includes(userId) && 'fill-red-500' } text-red-400 `} /> ) } {post.likes.length}</Button>
                                 </span>
                             </div>
                             {/* <p>{post.content}</p> */}
@@ -170,6 +179,8 @@ export default function Page() {
                     )                    
                 )
             }
+            <MakeComment postId={slug} onCommentSuccess={triggerReload} />
+            <Comments postId={slug} reloadComments={reloadComments} />
         </main>
     );
 }
