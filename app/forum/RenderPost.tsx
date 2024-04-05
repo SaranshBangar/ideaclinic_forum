@@ -38,6 +38,8 @@ const RenderPost = () => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [isLiked, setIsLiked] = useState(false);
     const [isLiking, setIsLiking] = useState(false);
+    const [userId, setUserId] = useState<string>('');
+    
 
     const fetchPosts = async () => {
         try {
@@ -60,6 +62,10 @@ const RenderPost = () => {
                     console.log('posts', data || 'No posts')
                     //@ts-ignore
                     setPosts(data);
+                    const {data : { user } } =  await supabase.auth.getUser();
+                    if(user){
+                        setUserId(user.id);
+                    }
                 } else {
                     console.log('No posts found')
                 }
@@ -90,18 +96,17 @@ const RenderPost = () => {
           .then(() => console.log('Successful share'))
           .catch((error) => console.log('Error sharing', error));
         } else {
-          console.log('Share not supported on this browser, copy this link:', url);
+          console.log('Share not supported on this browser, copy this link:', window.location.href);
         }
       }
+
+    
 
     const handleLike = async (post : Post) => {
         setIsLiking(true);
         const {data : { user } } =  await supabase.auth.getUser();
-        if(user && post.likes.includes(user.id)) {
-            setIsLiked(true);
-            console.log('User has liked this post')
-        }
-        if (!isLiked && post){
+        
+        if (post && user && !post.likes.includes(user.id) ){
             try {
                 await supabase
                 .from('posts')
@@ -117,7 +122,7 @@ const RenderPost = () => {
                 })
             }
         }
-        else if (isLiked && post) {
+        else if (post && user) {
             try {
                 await supabase
                 .from('posts')
@@ -170,7 +175,7 @@ const RenderPost = () => {
                     </span>
                     <span className="flex flex-row gap-2">
                         <Button variant='ghost' onClick={() => handleShare(`/forum/post/${post.id}`)} className="hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400"><Share2 /></Button>
-                        <Button variant='ghost' onClick={() => handleLike(post)} className={`${isLiked ? 'bg-white' : '' }hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400`}>{ isLiking ? ( <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" /> ) : ( <Heart className=" text-red-400" /> ) } {post.likes.length}</Button>
+                        <Button variant='ghost' onClick={() => handleLike(post)} className={`hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400`}>{ isLiking ? ( <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" /> ) : <Heart className={`${ post.likes.includes(userId) && 'fill-red-500' } text-red-400 `} /> } {post.likes.length}</Button>
                     </span>
                 </div>
             ))}

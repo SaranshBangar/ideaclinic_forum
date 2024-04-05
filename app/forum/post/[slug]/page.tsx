@@ -1,14 +1,17 @@
 'use client'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Interweave } from "interweave";
-import { CircleUserRound, Heart, Loader2, Share2 } from "lucide-react";
+import { CircleUserRound, Heart, Loader2, Share2, Tag } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { set } from "react-hook-form";
+import Comments from "./Comments";
+import MakeComment from "./MakeComment";
 
 interface Post {
     creator_id: string;
@@ -16,6 +19,8 @@ interface Post {
     likes: string[];
     created_at: string;
     content: string;
+    label: string;
+    label_color: string;
     profiles: {
         avatar_url: string;
         username: string;
@@ -31,7 +36,9 @@ export default function Page() {
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(true);
     const [isLiked, setIsLiked] = useState(false);
+    const [userId, setUserId] = useState<string>('');
     const [isLiking, setIsLiking] = useState(false);
+    const [reloadComments, setReloadComments] = useState(false);
     const { toast } = useToast();
 
     const fetchPost = async () => {
@@ -39,7 +46,7 @@ export default function Page() {
             setLoading(true);
             let { data: posts, error } = await supabase
             .from('posts')
-            .select('creator_id, title, content, likes, created_at, profiles( avatar_url, username, title, dept)')
+            .select('creator_id, title, content, likes, label, label_color, created_at, profiles( avatar_url, username, title, dept)')
             .eq('id', slug)
             
             if (error) {
@@ -49,9 +56,9 @@ export default function Page() {
                     console.log('posts', posts || 'No posts')
                     //@ts-ignore
                     setPost(posts[0]);
-                    if(posts[0].likes.includes((await supabase.auth.getUser()).data.user?.id)) {
-                        setIsLiked(true);
-                        console.log('User has liked this post')
+                    const {data : { user } } =  await supabase.auth.getUser();
+                    if(user){
+                        setUserId(user.id);
                     }
                 } else {
                     console.log('No posts found')
@@ -91,7 +98,8 @@ export default function Page() {
       const handleLike = async () => {
         setIsLiking(true);
         const {data : { user } } =  await supabase.auth.getUser();
-        if (!isLiked && post){
+        
+        if ( post && !post.likes.includes(userId) ){
             try {
                 await supabase
                 .from('posts')
@@ -107,7 +115,7 @@ export default function Page() {
                 })
             }
         }
-        else if (isLiked && post) {
+        else if (post) {
             try {
                 await supabase
                 .from('posts')
@@ -128,9 +136,13 @@ export default function Page() {
         
       }
 
+      const triggerReload = () => {
+            setReloadComments(prevState => !prevState);
+      }
+
 
     return (
-        <main className="bg-[#121212] min-h-screen overflow-y-auto flex flex-col pt-24 items-center">
+        <main className="bg-[#121212] min-h-screen overflow-y-auto flex flex-col py-24 items-center">
             {
                 loading ? (
                     <Loader2 className="mr-2 h-64 w-64 animate-spin text-white" />
@@ -138,7 +150,8 @@ export default function Page() {
                     post && (
                         <section className="text-white w-3/5 mb-8">
                             <h1 className=" font-arimo font-semibold text-5xl mt-6">{post.title}</h1>
-                            <h3 className="font-arimo font-medium text-xl mb-12 ml-1">{new Date(post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
+                            <h3 className="font-arimo font-medium text-xl ml-1">{new Date(post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
+                            <Badge variant='secondary' style={{background:post.label_color}} className={` flex flex-row gap-1 text-nowrap text-[#fffaed] mb-12 ml-1 mt-1 w-fit`}><Tag/>{post.label}</Badge>
                             <div className=" border-y border-[#4A4A4A] py-4 my-12 flex flex-row justify-between gap-2">
                                 <Link className="flex flex-row gap-2 font-arimo font-medium text-sm text-[#9D9D9D] items-center" href={`/account/${post.creator_id}`}>
                                     <Avatar className='z-[100] hover:border'>
@@ -152,7 +165,7 @@ export default function Page() {
                                 </Link>
                                 <span className="flex flex-row gap-2">
                                     <Button variant='ghost' onClick={() => handleShare(window.location.href)} className="hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400"><Share2 /></Button>
-                                    <Button variant='ghost' onClick={() => handleLike()} className={`${isLiked ? 'bg-white' : '' }hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400`}>{ isLiking ? ( <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" /> ) : ( <Heart className=" text-red-400" /> ) } {post.likes.length}</Button>
+                                    <Button variant='ghost' onClick={() => handleLike()} className={`${isLiked ? 'bg-white' : '' }hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400`}>{ isLiking ? ( <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" /> ) : ( <Heart className={`${ post.likes.includes(userId) && 'fill-red-500' } text-red-400 `} /> ) } {post.likes.length}</Button>
                                 </span>
                             </div>
                             {/* <p>{post.content}</p> */}
@@ -166,6 +179,8 @@ export default function Page() {
                     )                    
                 )
             }
+            <MakeComment postId={slug} onCommentSuccess={triggerReload} />
+            <Comments postId={slug} reloadComments={reloadComments} />
         </main>
     );
 }
