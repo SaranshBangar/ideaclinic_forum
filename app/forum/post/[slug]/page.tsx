@@ -1,10 +1,11 @@
 'use client'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Interweave } from "interweave";
-import { CircleUserRound, Heart, Loader2, Share2 } from "lucide-react";
+import { CircleUserRound, Heart, Loader2, Share2, Tag } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,6 +17,8 @@ interface Post {
     likes: string[];
     created_at: string;
     content: string;
+    label: string;
+    label_color: string;
     profiles: {
         avatar_url: string;
         username: string;
@@ -39,7 +42,7 @@ export default function Page() {
             setLoading(true);
             let { data: posts, error } = await supabase
             .from('posts')
-            .select('creator_id, title, content, likes, created_at, profiles( avatar_url, username, title, dept)')
+            .select('creator_id, title, content, likes, label, label_color, created_at, profiles( avatar_url, username, title, dept)')
             .eq('id', slug)
             
             if (error) {
@@ -138,7 +141,8 @@ export default function Page() {
                     post && (
                         <section className="text-white w-3/5 mb-8">
                             <h1 className=" font-arimo font-semibold text-5xl mt-6">{post.title}</h1>
-                            <h3 className="font-arimo font-medium text-xl mb-12 ml-1">{new Date(post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
+                            <h3 className="font-arimo font-medium text-xl ml-1">{new Date(post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
+                            <Badge variant='secondary' style={{background:post.label_color}} className={` flex flex-row gap-1 text-nowrap text-[#fffaed] mb-12 ml-1 mt-1 w-fit`}><Tag/>{post.label}</Badge>
                             <div className=" border-y border-[#4A4A4A] py-4 my-12 flex flex-row justify-between gap-2">
                                 <Link className="flex flex-row gap-2 font-arimo font-medium text-sm text-[#9D9D9D] items-center" href={`/account/${post.creator_id}`}>
                                     <Avatar className='z-[100] hover:border'>
