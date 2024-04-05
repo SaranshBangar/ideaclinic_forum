@@ -180,7 +180,7 @@ export default function Page() {
                 )
             }
             <MakeComment postId={slug} onCommentSuccess={triggerReload} />
-            <Comments postId={slug} reloadComments={reloadComments} />
+            <Comments postId={slug} reloadComments={reloadComments} userId={userId} />
         </main>
     );
 }

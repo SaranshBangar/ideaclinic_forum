@@ -2,12 +2,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useToast } from "@/components/ui/use-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { CircleUserRound, Loader2, ThumbsUp } from "lucide-react";
+import { CircleUserRound, Heart, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { comment } from "postcss";
 import { useEffect, useState } from "react";
-import { set } from "react-hook-form";
 
 interface Comment {
     id: string;
@@ -24,19 +22,23 @@ interface Comment {
 
 export default function Comments({
     postId,
-    reloadComments
+    reloadComments,
+    userId
 }: {
     postId: string | string[],
-    reloadComments: boolean
+    reloadComments: boolean,
+    userId: string
 }) {
 
     const supabase = createClientComponentClient();
     const [loading, setLoading] = useState(true);
     const [showComments, setComments] = useState<Comment[]>([]);
     const [isLiked, setIsLiked] = useState(false);
-    const [userId, setUserId] = useState<string>('');
+    
     const [isLiking, setIsLiking] = useState(false);
     const { toast } = useToast();
+
+    console.log(userId)
 
     const fetchComments = async () => {
         try {
@@ -140,7 +142,7 @@ export default function Comments({
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" /> 
                                                 ) : (
                                             <p className="flex flex-col gap-1 items-center">                                                  
-                                                <ThumbsUp onClick={() => handleLike({ comment })} className="cursor-pointer hover:bg-white p-1 rounded-xl transition-all duration-300 ease-in-out hover:text-black"/>
+                                                <Heart onClick={() => handleLike({ comment })} className={`${comment.likes.includes(userId) ? 'fill-red-500' : ''} cursor-pointer hover:bg-white text-red-400 p-1 rounded-xl transition-all duration-300 ease-in-out `}/>
                                                 {comment.likes.length }
                                             </p>
                                     )}
