@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     password,
   })
 
-return NextResponse.redirect(`${requestUrl.origin}/forum`, {
+return NextResponse.redirect(`${requestUrl.origin}/`, {
     status: 301,
 })
 }
