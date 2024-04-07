@@ -35,7 +35,7 @@ interface UserPost{
   title: string;
 }
 
-export function LayoutGridDemo({ userId } : { userId: string }) {
+export function LayoutGridDemo({ userId } : { userId: string | string[] }) {
 
     const supabase = createClientComponentClient();
     const { toast } = useToast();
