@@ -13,7 +13,7 @@ export async function POST(request: Request) {
 
   await supabase.auth.updateUser({ password: newPassword})
 
-  return NextResponse.redirect(`${requestUrl.origin}/forum`, {
+  return NextResponse.redirect(`${requestUrl.origin}/`, {
     status: 301,
   })
 }
