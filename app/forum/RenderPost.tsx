@@ -31,10 +31,12 @@ interface Post {
 
 const RenderPost = ({
     offset,
-    limit 
+    limit,
+    filter
 } : {
     offset: number;
     limit: number;
+    filter?: string;
 }) => {
     
     const supabase = createClientComponentClient();
@@ -47,13 +49,19 @@ const RenderPost = ({
     const [userId, setUserId] = useState<string>('');
     
 
-    const fetchPosts = async () => {
+    const fetchPosts = async (filter?: string) => {
         try {
-            let { data, error } = await supabase
-            .from('posts')
-            .select('id, creator_id, title, likes, label, label_color, created_at, profiles( avatar_url, username )')
-            .order('created_at', { ascending: false })
-            .range(offset , limit)
+            let query = supabase
+                .from('posts')
+                .select('id, creator_id, title, likes, label, label_color, created_at, profiles( avatar_url, username )')
+                .order('created_at', { ascending: false })
+                .range(offset , limit);
+
+            if (filter) {
+                query = query.filter('label', 'eq', filter);
+            }
+
+            let { data, error } = await query;
             
             
             if (error) {
@@ -91,7 +99,7 @@ const RenderPost = ({
         
     }
     useMemo(() => {
-        fetchPosts();
+        fetchPosts(filter);
     }, [])
 
     const handleShare = (url : string) => {
