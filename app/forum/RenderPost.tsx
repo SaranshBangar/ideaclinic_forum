@@ -46,8 +46,8 @@ const RenderPost = () => {
             let { data, error } = await supabase
             .from('posts')
             .select('id, creator_id, title, likes, label, label_color, created_at, profiles( avatar_url, username )')
-            .range(0, 3)
             .order('created_at', { ascending: false })
+            .limit(4)
             
             if (error) {
                 console.log('error', error)
