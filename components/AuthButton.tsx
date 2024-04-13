@@ -37,7 +37,7 @@ export default async function AuthButton() {
         <DropdownMenuTrigger>
           <AvatarComponent userId={user.id} />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="bg-[#333333] text-white m-0 p-0">
+        <DropdownMenuContent className="bg-[#333333] text-white mt-1 z-[1000] p-0">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
