@@ -67,7 +67,7 @@ function NavbarFixed({ children }: { children: React.ReactNode }) {
           <Link href={'/forum'}>Forum</Link>
         </li>
       </ul>
-      <div className="px-4 py-2 ml-2 text-white bg-black rounded-full text-md transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
+      <div className="px-4 py-2 ml-2 text-white bg-black rounded-full text-md transition ease-in-out delay-150 hover:scale-110 duration-300">
         {children}
       </div>
     </nav>

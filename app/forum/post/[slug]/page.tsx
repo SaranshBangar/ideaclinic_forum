@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import { set } from "react-hook-form";
 import Comments from "./Comments";
 import MakeComment from "./MakeComment";
+import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 
 interface Post {
     creator_id: string;
@@ -21,6 +23,7 @@ interface Post {
     content: string;
     label: string;
     label_color: string;
+    banner_url: string;
     profiles: {
         avatar_url: string;
         username: string;
@@ -46,7 +49,7 @@ export default function Page() {
             setLoading(true);
             let { data: posts, error } = await supabase
             .from('posts')
-            .select('creator_id, title, content, likes, label, label_color, created_at, profiles( avatar_url, username, title, dept)')
+            .select('creator_id, title, content, likes, label, label_color, banner_url, created_at, profiles( avatar_url, username, title, dept)')
             .eq('id', slug)
             
             if (error) {
@@ -140,6 +143,15 @@ export default function Page() {
             setReloadComments(prevState => !prevState);
       }
 
+      function truncateString(str : string) {
+        const maxLength = 60;
+        if (str.length > maxLength) {
+          return str.substring(0, maxLength) + '...';
+        } else {
+          return str;
+        }
+      }
+
 
     return (
         <main className="bg-[#121212] min-h-screen overflow-y-auto flex flex-col py-24 items-center">
@@ -168,7 +180,19 @@ export default function Page() {
                                     <Button variant='ghost' onClick={() => handleLike()} className={`${isLiked ? 'bg-white' : '' }hover:border border-white rounded-xl flex flex-col gap-1 px-2 py-1 text-xs text-gray-400`}>{ isLiking ? ( <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" /> ) : ( <Heart className={`${ post.likes.includes(userId) && 'fill-red-500' } text-red-400 `} /> ) } {post.likes.length}</Button>
                                 </span>
                             </div>
-                            {/* <p>{post.content}</p> */}
+                            {
+                                post.banner_url !== null && (
+                                    <CldImage
+                                        width={888}
+                                        height={600}
+                                        src={post.banner_url}
+                                        alt="banner"
+                                        loading="lazy"
+                                        // loader={}
+                                        className="rounded-lg w-full h-auto md:h-[400px] lg:h-[600px] object-contain"
+                                    />
+                                )
+                            }
                             <Interweave
                                 content={post.content}
                                 className=" space-y-2 font-normal text-lg font-poppins text-[#F3F3F3]"
