@@ -11,7 +11,6 @@ export default function Page() {
           <PinContainer
             title="/Shantanu-Patil"
             href="https://www.linkedin.com/in/shantanu-patil-2355122/"
-            // onClick={() => window.open("https://www.linkedin.com/in/shantanu-patil-2355122/")}
           >
             <div className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[20rem] ">
               <h3 className="max-w-xs !pb-2 !m-0 font-bold  text-base text-slate-100">
@@ -22,7 +21,6 @@ export default function Page() {
                   Associate Director, DEI. Convener of Idea Clinic.
                 </span>
               </div>
-              {/* <div className="flex flex-1 w-full rounded-lg mt-4 bg-gradient-to-br from-violet-500 via-purple-500 to-blue-500" /> */}
               <Image
                 src="/shantanu.jpeg"
                 width={100}
