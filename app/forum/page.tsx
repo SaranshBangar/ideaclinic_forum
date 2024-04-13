@@ -51,7 +51,7 @@ export default function Page() {
           Discover Ideas
         </motion.h1>
       </LampContainer>
-      <RenderPost />
+      <RenderPost offset={0} limit={3} />
 
 
       

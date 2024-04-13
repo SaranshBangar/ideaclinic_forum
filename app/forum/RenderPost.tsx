@@ -29,7 +29,13 @@ interface Post {
     }
 }
 
-const RenderPost = () => {
+const RenderPost = ({
+    offset,
+    limit 
+} : {
+    offset: number;
+    limit: number;
+}) => {
     
     const supabase = createClientComponentClient();
     const router = useRouter();
@@ -47,7 +53,8 @@ const RenderPost = () => {
             .from('posts')
             .select('id, creator_id, title, likes, label, label_color, created_at, profiles( avatar_url, username )')
             .order('created_at', { ascending: false })
-            .limit(4)
+            .range(offset , limit)
+            
             
             if (error) {
                 console.log('error', error)
