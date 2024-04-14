@@ -14,6 +14,7 @@ import {
 import { SquarePen, User, UserCog } from "lucide-react";
 import { cookies } from "next/headers";
 import AvatarComponent from "./Avatar";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 
 
 export default async function AuthButton() {
@@ -32,7 +33,18 @@ export default async function AuthButton() {
 
   return session && user ? (
     <div className="flex flex-row items-center justify-end gap-4">
-      {user.email}
+      <Link href='/forum/create-post' className="flex items-center gap-1 hover:scale-110 transition-all duration-150 ease-in">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+                <SquarePen  className="w-[16px] mr-1" />
+            </TooltipTrigger>
+            <TooltipContent className="bg-[#090909] text-white">
+              <p>Create a new post</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </Link>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <AvatarComponent userId={user.id} />
@@ -50,11 +62,6 @@ export default async function AuthButton() {
             <Link href="/account/edit" className="flex items-center gap-1">
               <UserCog className="w-[12px] mr-1" />
               Edit Account
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link href='/forum/create-post' className="flex items-center gap-1">
-              <SquarePen  className="w-[12px] mr-1" /> New Post
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>

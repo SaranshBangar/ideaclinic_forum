@@ -28,7 +28,7 @@ export default function AvatarComponent({userId}: {userId: string}) {
     }, [userId])
 
     return (
-        <Avatar>
+        <Avatar className="hover:border-2 duration-75 ease-linear">
             <AvatarImage src={avatar_url} className="object-cover object-center zoom-in" />
             <AvatarFallback><CircleUserRound /></AvatarFallback>
         </Avatar>
