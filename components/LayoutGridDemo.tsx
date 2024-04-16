@@ -410,7 +410,7 @@ export function LayoutGridDemo({ userId } : { userId: string | string[] }) {
               <div className="flex flex-wrap text-center">
                 <div className="w-1/3 ml-auto bg-[#7f4ec0] h-12">
                   {' '}
-                  Total Blogs Written
+                  Total Posts Written
                 </div>
                 <div className="w-1/3 mr-auto bg-[#a072dc] h-12">
                   {totalBlogs}
