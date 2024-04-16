@@ -4,7 +4,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import {  use, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "./ui/button";
-import { Edit2Icon } from "lucide-react";
+import { ChevronUp, Edit2Icon } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -403,39 +403,11 @@ export function LayoutGridDemo({ userId } : { userId: string | string[] }) {
         
         
         return (
-          <div>
-            <p className="font-bold text-4xl text-white">_UserStatistics_</p>
-            <p className="font-normal text-base text-white"></p>
-            <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-              <div className="flex flex-wrap text-center">
-                <div className="w-1/3 ml-auto bg-[#7f4ec0] h-12">
-                  {' '}
-                  Total Posts Written
-                </div>
-                <div className="w-1/3 mr-auto bg-[#a072dc] h-12">
-                  {totalBlogs}
-                </div>
-              </div>
-              <br />
-              <div className="flex flex-wrap text-center">
-                <div className="w-1/3 ml-auto bg-[#7f4ec0] h-12">
-                  Total Likes Gained
-                </div>
-                <div className="w-1/3 mr-auto  bg-[#a072dc] h-12">
-                  {totalLikes}
-                </div>
-              </div>
-              <br />
-              <div className="flex flex-wrap text-center ">
-                <div className="w-1/3 ml-auto bg-[#7f4ec0] h-12">
-                  Total Comments Made
-                </div>
-                <div className="w-1/3 mr-auto bg-[#a072dc] h-12">
-                  {totalComments}
-                </div>
-              </div>
-            </p>
-          </div>
+          <section className="flex flex-row w-full flex-wrap gap-12 py-12 items-start justify-center">
+                <div className="text-white font-poppins text-xl gap-2"><span className="text-[#732FC9] font-arimo">{totalBlogs}</span> Posts  </div>
+                <div className="text-white font-poppins text-xl flex items-center gap-2"><span className="text-[#732FC9] font-arimo">{totalLikes}</span> Likes <ChevronUp className="text-green-300" /></div>
+                <div className="text-white font-poppins text-xl gap-2"><span className="text-[#732FC9] font-arimo">{totalComments}</span> Comments </div>
+          </section>
         )
       };
       // This skeleton displays the user's full name, their bio and email id, the image will be replaced by an HD image at later stage
