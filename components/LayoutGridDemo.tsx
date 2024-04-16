@@ -2,9 +2,9 @@
 import { LayoutGrid } from "./ui/layout-grid";
 import { useToast } from "@/components/ui/use-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import {  useEffect, useMemo, useRef, useState } from "react";
+import {  use, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "./ui/button";
-import { Edit2Icon } from "lucide-react";
+import { ChevronUp, Edit2Icon } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
+import { set } from "react-hook-form";
 
 interface UserAcc {
     id: string;
@@ -326,19 +327,88 @@ export function LayoutGridDemo({ userId } : { userId: string | string[] }) {
       };
       // This skeleton displays the user's statistics, I have added placeholder text as we currently dont have access that info yet
       const SkeletonThree = () => {
+
+        const [totalBlogs, setTotalBlogs] = useState<number>(0);
+        const [totalLikes, setTotalLikes] = useState<number>(0);
+        const [totalComments, setTotalComments] = useState<number>(0);
+
+        useEffect(() => {
+          const getStats = async () => {
+            const { data, error } = await supabase
+              .from('posts')
+              .select('id')
+              .eq('creator_id', userId)
+            if (error) {
+              console.log('error', error)
+              toast({
+                title: 'Error',
+                description: error.message,
+                duration: 5000,
+                variant:'destructive'
+              })
+            } else {
+              setTotalBlogs(data.length);
+            }
+          }
+          getStats();
+        }, [userId]);
+
+        useEffect(() => {
+          const getPostsLikes = async () => {
+            const { data, error } = await supabase
+              .from('posts')
+              .select('likes')
+              .eq('creator_id', userId)
+            if (error) {
+              console.log('error', error)
+              toast({
+                title: 'Error',
+                description: error.message,
+                duration: 5000,
+                variant:'destructive'
+              })
+            } else {
+              let totalLikes=0
+              data.forEach((post: any) => {
+                totalLikes+=post.likes.length;
+                
+              });
+              setTotalLikes(totalLikes);
+              // console.log(totalLikes.length)
+            }
+          }
+          getPostsLikes();
+        }, [userId]);
+
+        useEffect(() => {
+          const getStats=async()=>{
+            const {data,error}=await supabase.from('comments').select('id').eq('creatorid',userId)
+            if(error){
+              console.log('error',error)
+              toast({
+                title:'Error',
+                description:error.message,
+                duration:5000,
+                variant:'destructive'
+              })
+            }else{
+              setTotalComments(data.length)
+              }
+            
+          }
+          getStats()
+        },[userId])
+
+        
+        
+        
         return (
-          <div>
-            <p className="font-bold text-4xl text-white">_UserStatistics_</p>
-            <p className="font-normal text-base text-white"></p>
-            <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-              _TotalBlogsWritten_
-              <br />
-              _TotalLikesGained_
-              <br />
-              _TotalShares_
-            </p>
-          </div>
-        );
+          <section className="flex flex-row w-full flex-wrap gap-12 py-12 items-start justify-center">
+                <div className="text-white font-poppins text-xl gap-2"><span className="text-[#732FC9] font-arimo">{totalBlogs}</span> Posts  </div>
+                <div className="text-white font-poppins text-xl flex items-center gap-2"><span className="text-[#732FC9] font-arimo">{totalLikes}</span> Likes <ChevronUp className="text-green-300" /></div>
+                <div className="text-white font-poppins text-xl gap-2"><span className="text-[#732FC9] font-arimo">{totalComments}</span> Comments </div>
+          </section>
+        )
       };
       // This skeleton displays the user's full name, their bio and email id, the image will be replaced by an HD image at later stage
       const SkeletonFour = () => {
