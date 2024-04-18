@@ -17,7 +17,7 @@ const MenuBar = ({setContent} : { setContent : any}) => {
   }
 
   return (
-    <div className='w-full bg-black p-1 rounded-t-xl'>
+    <div className='w-full bg-black p-4 rounded-t-xl mb-[0.6rem]'>
       <Button
        variant='ghost'
         onClick={() => editor.chain().focus().toggleBold().run()}
