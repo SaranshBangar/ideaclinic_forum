@@ -140,7 +140,7 @@ export default function Page() {
       </h1>
       <form method="post" className="w-10/12 flex flex-row my-4 z-[1000] justify-evenly items-center">
         <div className="px-2">
-          <Label htmlFor="label" className="mb-3 text-lg justify-start w-full flex font-thin text-white">
+          <Label htmlFor="label" className="mb-3 text-lg justify-start w-full flex font-thin text-white ml-8">
             Choose a label
           </Label>
           <ComboboxDropdownMenu
@@ -158,7 +158,7 @@ export default function Page() {
             placeholder="Cool title here"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="text-white bg-black bg-opacity-80 mt-3"
+            className="text-white bg-black bg-opacity-80 mt-3 w-[96%]"
           />
 
         </div>
@@ -241,7 +241,7 @@ export default function Page() {
       <Button
         type="submit"
         variant='secondary'
-        className="w-1/2 mt-4 z-[1000] bg-green-400"
+        className="w-1/2 mt-4 z-[1000] bg-green-400 mb-6"
         onClick={makePost}
         disabled={updating}
         
