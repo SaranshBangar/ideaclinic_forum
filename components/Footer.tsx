@@ -39,25 +39,29 @@ const Footer = () => {
         <div className="flex flex-col justify-center items-center gap-4">
             <div className="flex flex-row items-center gap-12">
                 <div>
-                    <Image
-                        src={deiLogo}
-                        alt="DEI Logo"
-                        width={100} 
-                        height={100} 
-                    />
+                    <a href="https://www.srmdei.com/"  target="_blank">
+                        <Image
+                            src={deiLogo}
+                            alt="DEI Logo"
+                            width={100} 
+                            height={100} 
+                        />
+                    </a>
                 </div>
                 <div>
-                    <Image
-                        src={srmLogo}
-                        alt="SRM Logo"
-                        width={100} 
-                        height={100} 
-                    />
+                    <a href="https://www.srmist.edu.in/" target="_blank">
+                        <Image
+                            src={srmLogo}
+                            alt="SRM Logo"
+                            width={100} 
+                            height={100} 
+                        />
+                    </a>
                 </div>
             </div>
             {/* I have used lorem epsum as of now since i dont have any quality content to insert here */}
             <div> 
-                <p className="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit <br /> Quae magni autem voluptate eius debitis officia nam provident accusamus?</p>
+                <p className="text-center">We work with aspiring entreprenuers to turn their ideas into thriving ventures.</p>
             </div>
             {/* All of the links refer to the home page as of now */}
             <div className="flex flex-row justify-evenly items-center w-1/2 mt-4 mb-3">
@@ -72,7 +76,7 @@ const Footer = () => {
                 </a>
             </div>
             {/* All of the links refer to the home page as of now */}
-            <div className="flex flex-row justify-evenly items-center gap-4 mb-6 font-thin">
+            <div className="flex flex-row justify-evenly items-center gap-8 mb-6 font-thin">
                 <a href="/">
                     <p>Privacy</p>
                 </a>
@@ -81,9 +85,6 @@ const Footer = () => {
                 </a>
                 <a href="/">
                     <p>Acceptable Use Policy</p>
-                </a>
-                <a href="/">
-                    <p>Software Lifecycle Policy</p>
                 </a>
             </div>
         </div>
