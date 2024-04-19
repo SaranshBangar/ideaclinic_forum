@@ -84,8 +84,6 @@ export default function Page() {
       } = await supabase.auth.getUser()
 
       if (user) {
-        console.log('User found')
-        console.log(user)
         setUserId(user.id)
         setEmailId(user.email || '') // Provide a default value for setEmailId
       } else {
@@ -126,7 +124,6 @@ export default function Page() {
         })        
       }
       else {        
-        console.log('data', data || 'No data')
         setUsername(data[0].username)
         setFull_name(data[0].full_name)
         setDept(data[0].dept)
@@ -154,7 +151,7 @@ export default function Page() {
     resolver: zodResolver(accountSchema),
   })
   const onSubmit = async (values: z.infer<typeof accountSchema>) => {
-    console.log(values)
+    // console.log(values)
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -193,7 +190,7 @@ export default function Page() {
         router.push('/account')
       }
 
-      console.log(data)
+      // console.log(data)
     } catch (error) {
       console.log(error)
     }

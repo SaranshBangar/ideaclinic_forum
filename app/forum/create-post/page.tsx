@@ -18,6 +18,8 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
 import Image from "next/image";
+import { v4 as uuidv4 } from "uuid";
+import { UUID } from "crypto";
 
 function load(value: any) {
   if (value == true) {
@@ -64,6 +66,46 @@ export default function Page() {
     fetchUser();
   }, [userId])
 
+  const id = uuidv4();
+
+  async function testCreateThread({
+    threadId,
+    userId,
+    title 
+  } : {
+    threadId: string,
+    userId: string,
+    title: string
+  }) {
+    try {
+      const response = await fetch('https://notifications-microservice.vercel.app/create-thread', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              threadId: threadId,
+              userId: userId,
+              title: title
+          })
+      });
+  
+      const data = await response.json();
+      console.log(data);
+    
+    } catch (error : any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+        duration: 5000,
+      })
+    }
+
+}
+
+
+
   async function makePost() {
     
     if (title=="") {
@@ -77,9 +119,10 @@ export default function Page() {
       setUpdating(true);
       
       try {
+        
         const { data, error } = await supabase
           .from("posts")
-          .insert({ creator_id: userId, content: content, title: title, likes: [], label: label, label_color: label_color, banner_url: url});
+          .insert({ id: id, creator_id: userId, content: content, title: title, likes: [], label: label, label_color: label_color, banner_url: url});
           
         if (error) {
           toast({
@@ -89,6 +132,7 @@ export default function Page() {
             duration: 5000,
           })
         } else {
+          testCreateThread({ threadId: id, userId: userId, title: title });
           toast({
             title: "Post Created",
             variant: "success",
@@ -102,7 +146,8 @@ export default function Page() {
           description: error.message,
           variant: "destructive",
           duration: 5000,
-        })        
+        })  
+        return;      
       }       
         setUpdating(false);
         router.push("/forum");
@@ -156,6 +201,7 @@ export default function Page() {
             setColor={setLabelColor}
           />
         </div>
+        
         <div className="w-full">
           <Label htmlFor="title" className="mt-4 text-lg font-thin text-white">
             Post Title
@@ -243,14 +289,13 @@ export default function Page() {
         </div>
       </div>
       <BackgroundBeams />
-
+      
       <Button
         type="submit"
         variant='secondary'
         className="w-1/2 mt-4 z-[1000] bg-green-400"
         onClick={makePost}
         disabled={updating}
-        
       >
         <span>{updating ?  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Post it!"}</span>
       </Button>

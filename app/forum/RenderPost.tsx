@@ -74,7 +74,7 @@ const RenderPost = ({
                 })
             } else {
                 if (data) {
-                    console.log('posts', data || 'No posts')
+                    // console.log('posts', data || 'No posts')
                     //@ts-ignore
                     setPosts(data);
                     const {data : { user } } =  await supabase.auth.getUser();
@@ -160,7 +160,7 @@ const RenderPost = ({
 
 
   return (
-    <section className='w-screen z-[1000] absolute bottom-1 flex items-center justify-center max-h-[600px] overflow-y-auto  p-2'>
+    <section className='w-screen absolute bottom-1 flex items-center justify-center max-h-[600px] overflow-y-auto  p-2'>
         <div className="flex flex-col gap-4 w-10/12 backdrop-blur-md rounded-md">
             {posts.map((post) => (
                 <div key={post.id}  className="bg-[#090909] w-full flex flex-row p-4 rounded-md shadow-md justify-between items-center">
