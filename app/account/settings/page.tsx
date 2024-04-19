@@ -14,6 +14,13 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select"
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -242,50 +249,50 @@ export default function Page (){
                             className="space-y-10 flex flex-col w-8/12"
                         >
                             <FormField
-                            control={form.control}
-                            name="username"
-                            render={({ field }) => (
-                                <FormItem>
-                                <Label className="text-white">Username</Label>
-                                <FormControl>
-                                    <Input placeholder="username" type="text" {...field} />
-                                </FormControl>
-                                <FormDescription>
-                                    This is your public display name.
-                                </FormDescription>
-                                <FormMessage />
-                                </FormItem>
-                            )}
+                                control={form.control}
+                                name="username"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <Label className="text-white">Username</Label>
+                                    <FormControl>
+                                        <Input placeholder="username" type="text" {...field} />
+                                    </FormControl>
+                                    <FormDescription>
+                                        This is your public display name.
+                                    </FormDescription>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
                             />
                             <FormField
-                            control={form.control}
-                            name="full_name"
-                            render={({ field }) => (
-                                <FormItem>
-                                <Label className="text-white">Your Full Name</Label>
-                                <FormControl>
-                                    <Input placeholder="full name" type="text" {...field} />
-                                </FormControl>
-                                <FormDescription>This is your full name.</FormDescription>
-                                <FormMessage />
-                                </FormItem>
-                            )}
+                                control={form.control}
+                                name="full_name"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <Label className="text-white">Your Full Name</Label>
+                                    <FormControl>
+                                        <Input placeholder="full name" type="text" {...field} />
+                                    </FormControl>
+                                    <FormDescription>This is your full name.</FormDescription>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
                             />
                             <FormField
-                            control={form.control}
-                            name="dept"
-                            render={({ field }) => (
-                                <FormItem>
-                                <Label className="text-white">Department</Label>
-                                <FormControl>
-                                    <Input placeholder="C.Tech" type="text" {...field} />
-                                </FormControl>
-                                <FormDescription>
-                                    This is the department you are a faculty / student of.
-                                </FormDescription>
-                                <FormMessage />
-                                </FormItem>
-                            )}
+                                control={form.control}
+                                name="dept"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <Label className="text-white">Department</Label>
+                                    <FormControl>
+                                        <Input placeholder="C.Tech" type="text" {...field} />
+                                    </FormControl>
+                                    <FormDescription>
+                                        This is the department you are a faculty / student of.
+                                    </FormDescription>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
                             />
                             <FormField
                             control={form.control}
@@ -294,11 +301,24 @@ export default function Page (){
                                 <FormItem>
                                 <Label className="text-white">Your Title</Label>
                                 <FormControl>
-                                    <Input
+                                    {/* <Input
                                     placeholder="Associate Professor"
                                     type="text"
                                     {...field}
-                                    />
+                                    /> */}
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <SelectTrigger className="text-black w-full">
+                                        <SelectValue  placeholder="Select your Title " />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="HOD">HOD</SelectItem>
+                                        <SelectItem value="Professor">Professor</SelectItem>
+                                        <SelectItem value="Associate Professor">Associate Professor</SelectItem>
+                                        <SelectItem value="Assistant Professor">Assistant Professor</SelectItem>
+                                        <SelectItem value="Research Scholar">Research Scholar</SelectItem>
+                                        <SelectItem value="Student">Student</SelectItem>
+                                    </SelectContent>
+                                    </Select>
                                 </FormControl>
                                 <FormDescription>
                                     This is your current title.
@@ -308,25 +328,25 @@ export default function Page (){
                             )}
                             />
                             <FormField
-                            control={form.control}
-                            name="bio"
-                            render={({ field }) => (
-                                <FormItem>
-                                <Label className="text-white">Your Bio</Label>
-                                <FormControl>
-                                    <Textarea
-                                    className="text-black"
-                                    placeholder="Hi! I am a..... "
-                                    {...field}
-                                    />
-                                </FormControl>
-                                <FormDescription>
-                                    This is your bio, Say something interesting about
-                                    yourself.
-                                </FormDescription>
-                                <FormMessage />
-                                </FormItem>
-                            )}
+                                control={form.control}
+                                name="bio"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <Label className="text-white">Your Bio</Label>
+                                    <FormControl>
+                                        <Textarea
+                                        className="text-black"
+                                        placeholder="Hi! I am a..... "
+                                        {...field}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        This is your bio, Say something interesting about
+                                        yourself.
+                                    </FormDescription>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
                             />
                             <Button
                             type="button"
@@ -344,30 +364,30 @@ export default function Page (){
                             <form
                                 action="/auth/pwd-change"
                                 method="post"
-                                className="animate-in flex-1 flex flex-col w-full h-fit justify-center gap-2 text-white backdrop-blur-[0.7px] p-4 rounded-lg border border-gray-500"
+                                className="animate-in flex-1 flex flex-col w-full h-fit justify-center gap-2 text-white backdrop-blur-[0.7px] p-4"
                             >
                                 <FormField
-                                control={changePasswordForm.control}
-                                name="password"
-                                render={({ field }) => (
-                                    <FormItem>
-                                    <FormLabel className="text-white">
-                                        Your New Password
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                        type="password"
-                                        className="text-black"
-                                        placeholder="......."
-                                        {...field}
-                                        />
-                                    </FormControl>
-                                    <FormDescription>
-                                        This is your new password. Don't forget it!
-                                    </FormDescription>
-                                    <FormMessage />
-                                    </FormItem>
-                                )}
+                                    control={changePasswordForm.control}
+                                    name="password"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel className="text-white">
+                                            Your New Password
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                            type="password"
+                                            className="text-black"
+                                            placeholder="......."
+                                            {...field}
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            This is your new password. Don't forget it!
+                                        </FormDescription>
+                                        <FormMessage />
+                                        </FormItem>
+                                    )}
                                 />
                                 <Button variant="destructive" type="submit">
                                 Change Password

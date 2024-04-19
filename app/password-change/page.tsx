@@ -88,7 +88,7 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-white">
-                    Your New Password
+                    Set Your Password
                   </FormLabel>
                   <FormControl>
                     <Input
