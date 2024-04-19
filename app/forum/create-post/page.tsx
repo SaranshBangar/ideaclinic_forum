@@ -1,25 +1,19 @@
 "use client";
-import React from "react";
 import Tiptap from "@/components/Tiptap";
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { ImagePlus, Loader2, Trash2 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
-import { ComboboxDropdownMenu } from "./ComboBox";
 import { CldUploadWidget } from 'next-cloudinary';
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable"
 import Image from "next/image";
 import { v4 as uuidv4 } from "uuid";
 import { UUID } from "crypto";
+import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+import { ComboboxDropdownMenu } from "./ComboBox";
 
 function load(value: any) {
   if (value == true) {
@@ -191,7 +185,7 @@ export default function Page() {
       </h1>
       <form method="post" className="w-10/12 flex flex-row my-4 z-[1000] justify-evenly items-center">
         <div className="px-2">
-          <Label htmlFor="label" className="mb-3 text-lg justify-start w-full flex font-thin text-white">
+          <Label htmlFor="label" className="mb-3 text-lg justify-start w-full flex font-thin text-white ml-8">
             Choose a label
           </Label>
           <ComboboxDropdownMenu
@@ -210,7 +204,7 @@ export default function Page() {
             placeholder="Cool title here"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="text-white bg-black bg-opacity-80 mt-3"
+            className="text-white bg-black bg-opacity-80 mt-3 w-[96%]"
           />
 
         </div>
@@ -283,7 +277,7 @@ export default function Page() {
         }}
       </CldUploadWidget>
 
-      <div className="z-[1000] w-full relative backdrop-blur-md text-white flex flex-row justify-center items-center my-4 md:px-6 lg:px-12 gap-2">
+      <div className="z-[1000] backdrop-blur-md text-white flex flex-row justify-center items-center my-4 md:px-6 lg:px-12 gap-2">
         <div>
           <Tiptap setContent={setContent} />
         </div>
@@ -293,7 +287,7 @@ export default function Page() {
       <Button
         type="submit"
         variant='secondary'
-        className="w-1/2 mt-4 z-[1000] bg-green-400"
+        className="w-1/2 mt-4 z-[1000] bg-green-400 mb-6"
         onClick={makePost}
         disabled={updating}
       >

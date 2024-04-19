@@ -41,7 +41,7 @@ const InfiniteMovingTestimonials = () => {
       <div className="h-[40rem] w-full rounded-md flex flex-col antialias items-center justify-center relative overflow-hidden">
         <InfiniteMovingCards
           items={testimonials}
-          direction="right"
+          direction="left"
           speed="slow"
         />
       </div>
