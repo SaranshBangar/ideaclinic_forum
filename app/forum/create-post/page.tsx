@@ -1,23 +1,17 @@
 "use client";
-import React from "react";
 import Tiptap from "@/components/Tiptap";
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { ImagePlus, Loader2, Trash2 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
-import { ComboboxDropdownMenu } from "./ComboBox";
 import { CldUploadWidget } from 'next-cloudinary';
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable"
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+import { ComboboxDropdownMenu } from "./ComboBox";
 
 function load(value: any) {
   if (value == true) {
@@ -237,7 +231,7 @@ export default function Page() {
         }}
       </CldUploadWidget>
 
-      <div className="z-[1000] w-full relative backdrop-blur-md text-white flex flex-row justify-center items-center my-4 md:px-6 lg:px-12 gap-2">
+      <div className="z-[1000] backdrop-blur-md text-white flex flex-row justify-center items-center my-4 md:px-6 lg:px-12 gap-2">
         <div>
           <Tiptap setContent={setContent} />
         </div>

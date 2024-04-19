@@ -5,9 +5,8 @@ import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
 import { EditorProvider, useCurrentEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React from 'react'
+import { Bold, Code, Heading1, Italic, List, ListOrdered, MessageSquareCode, MessageSquareQuote, Minus, Pilcrow, Redo2, Strikethrough, Undo2, WrapText } from 'lucide-react'
 import { Button } from './ui/button'
-import { Bold, Italic, Pilcrow, Strikethrough, Code, MessageSquareQuote, Minus, WrapText, Undo2, Redo2, Heading1 } from 'lucide-react'
 
 const MenuBar = ({setContent} : { setContent : any}) => {
     const { editor } = useCurrentEditor()
@@ -87,7 +86,7 @@ const MenuBar = ({setContent} : { setContent : any}) => {
         >
         <Pilcrow />
       </Button>
-     <Button
+      <Button
         variant='ghost'
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
@@ -124,24 +123,35 @@ const MenuBar = ({setContent} : { setContent : any}) => {
       >
         h6
       </Button> */}
-      {/* <Button
+      <Button
+        variant='ghost'
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive('bulletList') ? 'is-active' : ''}
       >
-        bullet list
+        <List /> 
       </Button>
+
       <Button
+        variant='ghost'
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={editor.isActive('orderedList') ? 'is-active' : ''}
       >
-        ordered list
-      </Button> */}
+        <ListOrdered />
+      </Button>
       {/* <Button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         className={editor.isActive('codeBlock') ? 'is-active' : ''}
       >
         code block
       </Button> */}
+      <Button
+
+        variant='ghost'
+        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+        className={editor.isActive('codeBlock') ? 'is-active' : ''}
+      >
+        <MessageSquareCode />
+      </Button>
       <Button
         variant='ghost'
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
@@ -197,13 +207,11 @@ const extensions = [
   TextStyle.extend({ types: [ListItem.name] }),
   StarterKit.configure({
     bulletList: {
+      keepAttributes: true,
       keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-    },
-    orderedList: {
-      keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-    },
+    }
+
+
   }),
 ]
 
