@@ -72,8 +72,8 @@ export default function Page() {
       } = await supabase.auth.getUser()
 
       if (user) {
-        console.log('User found')
-        console.log(user)
+        // console.log('User found')
+        // console.log(user)
         setUserId(user.id)
         setEmailId(user.email || '') // Provide a default value for setEmailId
       } else {
@@ -100,7 +100,7 @@ export default function Page() {
     },
   })
   const onSubmit = async (values: z.infer<typeof accountSchema>) => {
-    console.log(values)
+    // console.log(values)
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -139,7 +139,7 @@ export default function Page() {
         router.push('/password-change')
       }
 
-      console.log(data)
+      // console.log(data)
     } catch (error) {
       console.log(error)
     }

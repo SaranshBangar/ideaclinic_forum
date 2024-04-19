@@ -20,7 +20,7 @@ export default function MakeComment({
     const supabase = createClientComponentClient();
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState<User | null>(null);
-    const [comment, setComment] = useState<string>('');
+    const [comment, setComment] = useState<string | null>(null);
     const { toast } = useToast();
     const router = useRouter();
 
@@ -36,6 +36,47 @@ export default function MakeComment({
         fetchUser();
     } , [])
 
+    async function onComment({
+        threadId,
+        comment
+      } : {
+        threadId: string,
+        comment: string
+      }) {
+        try {
+            console.log('In onComment Function')
+          const response = await fetch('https://notifications-microservice.vercel.app/on-comment', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  threadId: threadId,
+                  commentData: comment
+              })
+          });
+      
+          const data = await response.json();
+          console.log(data);
+          if (response.status === 200) {
+                onCommentSuccess();
+          }
+          else if (response.status === 400) {
+              throw new Error(data.message);
+          }
+        
+        } catch (error : any) {
+          toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive",
+            duration: 5000,
+          })
+        }
+    
+    }
+    
+
     const postComment = async () => {
         if (!comment) {
             toast({
@@ -44,6 +85,7 @@ export default function MakeComment({
                 duration: 5000,
                 variant: 'destructive'
             })
+            return;
         };
         setLoading(true);
         try {
@@ -58,8 +100,11 @@ export default function MakeComment({
             if (error) {
                 console.log('error', error)
             } else {
-                console.log('comment', data)
-                router.refresh();
+                // router.refresh();
+                await onComment({
+                    threadId: postId.toString(),
+                    comment: comment
+                })
                 toast({
                     title: 'Success',
                     description: 'Comment posted successfully',
@@ -81,10 +126,11 @@ export default function MakeComment({
                 placeholder="Make a comment"
                 className="min-w-[400px] w-full bg-[#090909] text-white resize-none"
                 rows={1}
-                value={comment}
+                value={comment || ''}
+                name="comment"
                 onChange={(e) => setComment(e.target.value)}
             />
-            <Button variant="secondary" disabled={loading} className="bg-[#090909] text-white" onClick={postComment}>
+            <Button type="submit" variant="secondary" disabled={loading} className="bg-[#090909] text-white" onClick={postComment}>
                {
                      loading ? <Loader2 className="mr-2 h-6 w-6 animate-spin text-white" /> : <SendHorizontal />
                } 

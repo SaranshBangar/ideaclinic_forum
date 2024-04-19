@@ -33,11 +33,9 @@ export default function Page() {
         } = await supabase.auth.getUser();
 
         if (user) {
-            console.log("User found");
-            console.log(user);
             setuserId(user.id);
         } else {
-            console.log("No user found");
+            // console.log("No user found");
             router.push("/login");
         }
     };
@@ -57,7 +55,7 @@ export default function Page() {
         })
       }
       else {
-        console.log('data', data || 'No data')
+        // console.log('data', data || 'No data')
         setUserData(data[0]);
         toast({
           title: `Welcome`,

@@ -17,6 +17,7 @@ import AvatarComponent from "./Avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 
 
+
 export default async function AuthButton() {
   const cookieStore = cookies()
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
@@ -29,6 +30,7 @@ export default async function AuthButton() {
   } = await supabase.auth.getUser()
 
   
+
   
 
   return session && user ? (

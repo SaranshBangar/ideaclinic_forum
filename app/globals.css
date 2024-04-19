@@ -222,4 +222,7 @@ hr {
 ::-webkit-scrollbar-thumb {
     background-color: rgb(156 163 175);
     height: 5px;
+
+popover {
+  z-index: 1000;
 }
