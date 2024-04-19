@@ -1,5 +1,6 @@
 import Image from "next/image"
 import deiLogo from "@/public/DEI.png"
+import srmLogo from "@/public/SRM.png"
 import { Instagram, Linkedin, Mail } from "lucide-react";
 
 const Footer = () => {
@@ -8,75 +9,74 @@ const Footer = () => {
         {/* This first section has the 4 divs with 5 links each, each link refers to the home page as of now */}
         <div className="flex flex-row justify-evenly items-center gap-4">
             <div className="flex flex-col gap-3">
-                <h2 className="font-bold text-[1.5rem]">Product</h2>
+                <h2 className="font-bold text-[1.5rem]">Page</h2>
                 <ul className="text-md list-none -ml-[0.0px] flex flex-col gap-[12px]">
-                    <a href="/"><li>Mobile Push Notifications</li></a>
-                    <a href="/"><li>Web Push Notifications</li></a>
-                    <a href="/"><li>Email</li></a>
-                    <a href="/"><li>In-App Messaging</li></a>
-                    <a href="/"><li>SMS</li></a>
+                    <a href="/forum"><li>Forum</li></a>
+                    <a href="/"><li>For You</li></a>
+                    <a href="/"><li>All Posts</li></a>
                 </ul>
             </div>
             <div className="flex flex-col gap-3">
-                <h2 className="font-bold text-[1.5rem]">Resources</h2>
+                <h2 className="font-bold text-[1.5rem]">User</h2>
                 <ul className="text-md list-none -ml-[0.0px] flex flex-col gap-[12px]">
-                    <a href="/"><li>Resource Library</li></a>
-                    <a href="/"><li>Customer Case Studies</li></a>
-                    <a href="/"><li>Blog</li></a>
-                    <a href="/"><li>Notification Preview Tool</li></a>
-                    <a href="/"><li>Glossary</li></a>
+                    <a href="/account"><li>Account</li></a>
+                    <a href="/forum/create-post"><li>Create Post</li></a>
+                    <a href="/login"><li>Login</li></a>
                 </ul>
             </div>
             <div className="flex flex-col gap-3">
-                <h2 className="font-bold text-[1.5rem]">Developers</h2>
+                <h2 className="font-bold text-[1.5rem]">About Us</h2>
                 <ul className="text-md list-none -ml-[0.0px] flex flex-col gap-[12px]">
-                    <a href="/"><li>Documentation</li></a>
-                    <a href="/"><li>GitHub</li></a>
-                    <a href="/"><li>Code Samples</li></a>
-                    <a href="/"><li>Developer Community</li></a>
-                    <a href="/"><li>Beta Program</li></a>
-                </ul>
-            </div>
-            <div className="flex flex-col gap-3">
-                <h2 className="font-bold text-[1.5rem]">Company</h2>
-                <ul className="text-md list-none -ml-[0.0px] flex flex-col gap-[12px]">
-                    <a href="/"><li>About Us</li></a>
-                    <a href="/"><li>Careers</li></a>
-                    <a href="/"><li>Why IdeaClinic</li></a>
-                    <a href="/"><li>Partner Program</li></a>
-                    <a href="/"><li>Contact Sales</li></a>
+                    <a href="https://www.instagram.com/srmiiec/"><li>Instagram</li></a>
+                    <a href="https://www.linkedin.com/school/srmiic/mycompany/"><li>LinkedIn</li></a>
+                    <a href="https://www.twitter.com/SRM_DEI/"><li>Twitter/X</li></a>
+                    <a href="mailto:manager.siic@srmist.edu.in"><li>Email</li></a>
                 </ul>
             </div>
         </div>
         {/* The division line between the above 4 pillar divs and the image */}
         <div className="h-[1px] w-[96%] bg-slate-100 rounded-full mt-12 mb-6" />
         <div className="flex flex-col justify-center items-center gap-4">
-            <div>
-                <Image
-                    src={deiLogo}
-                    alt="DEI Logo"
-                    width={100} 
-                    height={100} 
-                />
+            <div className="flex flex-row items-center gap-12">
+                <div>
+                    <a href="https://www.srmdei.com/"  target="_blank">
+                        <Image
+                            src={deiLogo}
+                            alt="DEI Logo"
+                            width={100} 
+                            height={100} 
+                        />
+                    </a>
+                </div>
+                <div>
+                    <a href="https://www.srmist.edu.in/" target="_blank">
+                        <Image
+                            src={srmLogo}
+                            alt="SRM Logo"
+                            width={100} 
+                            height={100} 
+                        />
+                    </a>
+                </div>
             </div>
             {/* I have used lorem epsum as of now since i dont have any quality content to insert here */}
             <div> 
-                <p className="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit <br /> Quae magni autem voluptate eius debitis officia nam provident accusamus?</p>
+                <p className="text-center">We work with aspiring entreprenuers to turn their ideas into thriving ventures.</p>
             </div>
             {/* All of the links refer to the home page as of now */}
             <div className="flex flex-row justify-evenly items-center w-1/2 mt-4 mb-3">
-                <a href="/" className="border-2 border-white rounded-full p-2 hover:bg-gray-700 hover:shadow-sm ease-in-out duration-200 transition-all">
+                <a href="https://www.linkedin.com/school/srmiic/mycompany/" className="border-2 border-white rounded-full p-2 hover:bg-gray-700 hover:shadow-sm ease-in-out duration-200 transition-all">
                     <Linkedin className="w-[30px] h-[30px]" />
                 </a>
-                <a href="/" className="border-2 border-white rounded-full p-2 hover:bg-gray-700 hover:shadow-sm ease-in-out duration-200 transition-all">
+                <a href="mailto:manager.siic@srmist.edu.in" className="border-2 border-white rounded-full p-2 hover:bg-gray-700 hover:shadow-sm ease-in-out duration-200 transition-all">
                     <Mail className="w-[30px] h-[30px]" />
                 </a>
-                <a href="/" className="border-2 border-white rounded-full p-2 hover:bg-gray-700 hover:shadow-sm ease-in-out duration-200 transition-all">
+                <a href="https://www.instagram.com/srmiiec/" className="border-2 border-white rounded-full p-2 hover:bg-gray-700 hover:shadow-sm ease-in-out duration-200 transition-all">
                     <Instagram className="w-[30px] h-[30px]" />
                 </a>
             </div>
             {/* All of the links refer to the home page as of now */}
-            <div className="flex flex-row justify-evenly items-center gap-4 mb-6 font-thin">
+            <div className="flex flex-row justify-evenly items-center gap-8 mb-6 font-thin">
                 <a href="/">
                     <p>Privacy</p>
                 </a>
@@ -85,9 +85,6 @@ const Footer = () => {
                 </a>
                 <a href="/">
                     <p>Acceptable Use Policy</p>
-                </a>
-                <a href="/">
-                    <p>Software Lifecycle Policy</p>
                 </a>
             </div>
         </div>
