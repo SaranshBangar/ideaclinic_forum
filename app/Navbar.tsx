@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence, px } from 'framer-motion'
 import {
@@ -8,7 +8,7 @@ import {
   NotificationBell,
 } from "@novu/notification-center";
 import { useRouter } from "next/navigation";
-import styles from './styles';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 interface NavbarScrollProps {
   isScrolling: boolean
@@ -16,6 +16,7 @@ interface NavbarScrollProps {
 
 export default function Navbar({ children }: { children: React.ReactNode }) {
   const [isScrolling, setIsScrolling] = useState(false)
+  
 
   const handleScroll = () => {
     if (window.scrollY >= 30) {
@@ -52,6 +53,21 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
 
 function NavbarFixed({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const [userId, setuserId] = useState('');
+  const supabase = createClientComponentClient();
+  useMemo(() => {
+    const fetchUser = async () => {
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+
+        if (user) {
+            setuserId(user.id);
+        }
+    };
+
+    fetchUser();
+  },[]);
   
   const onNotificationClick = (notification : any) => {
     router.push(notification.cta.data.url);
@@ -79,7 +95,7 @@ function NavbarFixed({ children }: { children: React.ReactNode }) {
           <p className="text-xl text-white">IDEA Clinic</p>
         </Link>
         <NovuProvider
-          subscriberId='49de7cfa-623a-4e02-bb04-8713b783aa38'
+          subscriberId={userId}
           applicationIdentifier='UnWOs2G6SZhx'
           // styles={styles}
         >
