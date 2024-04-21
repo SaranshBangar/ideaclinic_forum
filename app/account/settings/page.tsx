@@ -232,10 +232,10 @@ export default function Page (){
     
     return (
         <main className="pt-32 bg-[#090909] text-white w-full h-screen flex flex-col bg-grid-small-white/[0.2] items-center justify-center ">
-            <ScrollArea className="w-10/12 h-10/12 flex flex-col overflow-auto border border-gray-300 rounded-md p-2 my-6 md:my-4 lg:my-2 z-0">
+            <ScrollArea className="w-8/12 h-11/12 flex flex-col border border-gray-300 rounded-md p-2 my-6 md:my-4 lg:my-2 z-0">
                 <Tabs defaultValue="account" className="w-full min-h-96 h-full p-4">
-                    <div className="w-full gap-2 items-center flex flex-row justify-center sticky z-20">
-                        <TabsList className=" bg-transparent gap-2 text-gray-400">
+                    <div className="gap-2 items-center flex flex-row justify-center sticky z-20">
+                        <TabsList className=" bg-transparent gap-10 text-gray-400">
                             <TabsTrigger className="hover:bg-white/[0.2] transition-all ease-in-out active:border-b-2 border-b-sky-400" value="account">Account</TabsTrigger>
                             <TabsTrigger className="hover:bg-white/[0.2] transition-all ease-in-out active:border-b-2 border-b-sky-400" value="password">Password</TabsTrigger>
                             <TabsTrigger className="hover:bg-white/[0.2] transition-all ease-in-out active:border-b-2 border-b-sky-400" value="notifications">{`Notifications [BETA]`}</TabsTrigger>
@@ -246,7 +246,7 @@ export default function Page (){
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-10 flex flex-col w-8/12"
+                            className="space-y-5 flex flex-col w-8/12"
                         >
                             <FormField
                                 control={form.control}
@@ -255,7 +255,7 @@ export default function Page (){
                                     <FormItem>
                                     <Label className="text-white">Username</Label>
                                     <FormControl>
-                                        <Input placeholder="username" type="text" {...field} />
+                                        <Input placeholder="JohnDoe" type="text" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         This is your public display name.
@@ -271,7 +271,7 @@ export default function Page (){
                                     <FormItem>
                                     <Label className="text-white">Your Full Name</Label>
                                     <FormControl>
-                                        <Input placeholder="full name" type="text" {...field} />
+                                        <Input placeholder="John Doe" type="text" {...field} />
                                     </FormControl>
                                     <FormDescription>This is your full name.</FormDescription>
                                     <FormMessage />
@@ -336,13 +336,12 @@ export default function Page (){
                                     <FormControl>
                                         <Textarea
                                         className="text-black"
-                                        placeholder="Hi! I am a..... "
+                                        placeholder="Hi! I am..... "
                                         {...field}
                                         />
                                     </FormControl>
                                     <FormDescription>
-                                        This is your bio, Say something interesting about
-                                        yourself.
+                                        This is your bio, Say something interesting about yourself.
                                     </FormDescription>
                                     <FormMessage />
                                     </FormItem>
@@ -361,38 +360,43 @@ export default function Page (){
                     </TabsContent>
                     <TabsContent value="password">
                         <Form {...changePasswordForm}>
-                            <form
-                                action="/auth/pwd-change"
-                                method="post"
-                                className="animate-in flex-1 flex flex-col w-full h-fit justify-center gap-2 text-white backdrop-blur-[0.7px] p-4"
-                            >
-                                <FormField
-                                    control={changePasswordForm.control}
-                                    name="password"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                        <FormLabel className="text-white">
-                                            Your New Password
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                            type="password"
-                                            className="text-black"
-                                            placeholder="......."
-                                            {...field}
-                                            />
-                                        </FormControl>
-                                        <FormDescription>
-                                            This is your new password. Don't forget it!
-                                        </FormDescription>
-                                        <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <Button variant="destructive" type="submit">
-                                Change Password
-                                </Button>
-                            </form>
+                            <div className="w-full flex justify-center items-center">
+                                <div className="w-8/12 mt-4">
+                                    <form
+                                        action="/auth/pwd-change"
+                                        method="post"
+                                        className="animate-in flex-1 flex flex-col w-full h-fit justify-center gap-2 text-white backdrop-blur-[0.7px] p-4"
+                                    >
+                                        <FormField
+                                            control={changePasswordForm.control}
+                                            name="password"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                <FormLabel className="text-white">
+                                                    Your New Password
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                    type="password"
+                                                    className="text-black"
+                                                    placeholder="Enter your new password here..."
+                                                    {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormDescription>
+                                                    This is your new password. Don't forget it!
+                                                </FormDescription>
+                                                <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <br />
+                                        <Button variant="destructive" type="submit">
+                                        Change Password
+                                        </Button>
+                                    </form>
+                                </div>
+                            </div>
                         </Form>
                     </TabsContent>
                     <TabsContent value="notifications">
@@ -402,15 +406,19 @@ export default function Page (){
                             <input className="text-white hidden bg-[#4e4e4e]" type="text" name="firstName" value={user?.full_name}  />
                             <input className="text-white hidden bg-[#4e4e4e]" type="text" name="lastName" value={user?.username}  />
                             <input className="text-white hidden bg-[#4e4e4e]" type="text" name="title" value={user?.title}  />
-                            <Button type="submit" variant='destructive' className="w-fit flex flex-row gap-2 items-center" onClick={() => setloading(true)}>
-                            {
-                            loading ? <Loader2 className="mr-2 h-6 w-6 animate-spin text-white" /> :  ( <p className="flex flex-row gap-2 items-center"><ShieldOff/>{`Register for Notifications [BETA]`} </p> ) 
-                            }
-                            </Button>
+                            <div className="flex flex-col justify-center items-center mt-20 gap-4">
+                                <Button type="submit" variant='destructive' className="w-fit flex flex-row gap-2 items-center" onClick={() => setloading(true)}>
+                                {
+                                    loading ? <Loader2 className="mr-2 h-6 w-6 animate-spin text-white" /> :  ( <p className="flex flex-row gap-2 items-center"><ShieldOff/>{`Register for Notifications [BETA]`} </p> ) 
+                                }
+                                </Button>
+                                <p className="text-md text-slate-400 italic">Note - This feature is still in Beta mode and thus you may face some errors after enabling it!</p>
+                            </div>
                         </form>
                     </TabsContent>
                 </Tabs>
             </ScrollArea>
+            <div className="h-[50px]"></div>
         </main>
     )
 }
