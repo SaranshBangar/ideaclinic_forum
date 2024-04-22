@@ -130,18 +130,72 @@ export default function Page() {
         })
       } else {
         console.log('Data updated successfully')
+        await registerNotifications({
+          id: userId,
+          email: emailId,
+          firstName: values.full_name,
+          lastName: values.username,
+          title: values.title
+        })
         toast({
           variant: 'success',
           title: 'Profile updated successfully',
           description: 'Your profile has been updated.',
         })
 
-        router.push('/password-change')
+        
       }
 
       // console.log(data)
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  const registerNotifications = async ({
+    id: userId,
+    email: emailId,
+    firstName: full_name,
+    lastName: username,
+    title,
+  } : {
+    id: string,
+    email: string,
+    firstName: string,
+    lastName: string,
+    title: string
+  }) => {
+    try {
+      const response = await fetch('https://notifications-microservice.vercel.app/register-notification', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              id: userId,
+              email: emailId,
+              firstName: full_name,
+              lastName: username,
+              title: title
+          })
+      });
+  
+      const data = await response.json();
+      console.log(data);
+      toast({
+        title: "Success",
+        description: "You have been registered for notifications",
+        variant: "success",
+        duration: 5000,
+      })
+      router.push('/password-change')
+    } catch (error : any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+        duration: 5000,
+      })
     }
   }
 
