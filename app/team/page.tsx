@@ -34,6 +34,29 @@ export default function Page() {
             </div>
           </PinContainer>
           <PinContainer
+            title="/Ishan-Roy"
+            href="https://www.linkedin.com/in/ishan-roy-742933272/"
+            className='pb-16'
+          >
+            <div className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[20rem] ">
+              <h3 className="max-w-xs !pb-2 !m-0 font-bold  text-base text-slate-100">
+                Ishan Roy
+              </h3>
+              <div className="text-base !m-0 !p-0 font-normal">
+                <span className="text-slate-500 ">Project Liaison</span>
+              </div>
+              <Image
+                src="/Ishan.jpg"
+                width={100}
+                height={100}
+                alt="Ansh Singh"
+                className="w-full h-full mt-4 rounded-lg pb-4 object-cover"
+                unoptimized
+                priority
+              />
+            </div>
+          </PinContainer>
+          <PinContainer
             title="/Suvan-GS"
             href="https://www.linkedin.com/in/suvan-gowri-shanker-596943261/"
             className='pb-16'
