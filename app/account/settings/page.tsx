@@ -229,6 +229,42 @@ export default function Page (){
           password: '',
         },
       })
+
+    const registerNotifications = async () => {
+      setloading(true)
+      try {
+        const response = await fetch('https://notifications-microservice.vercel.app/register-notification', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: userId,
+                email: emailId,
+                firstName: full_name,
+                lastName: username,
+                title: title
+            })
+        });
+    
+        const data = await response.json();
+        console.log(data);
+        toast({
+          title: "Success",
+          description: "You have been registered for notifications",
+          variant: "success",
+          duration: 5000,
+        })
+      } catch (error : any) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+          duration: 5000,
+        })
+      }
+      setloading(false)
+    }
     
     return (
         <main className="pt-32 bg-[#090909] text-white w-full h-screen flex flex-col bg-grid-small-white/[0.2] items-center justify-center ">
@@ -400,21 +436,14 @@ export default function Page (){
                         </Form>
                     </TabsContent>
                     <TabsContent value="notifications">
-                        <form action="/auth/get-notif" method="post" className="flex flex-col gap-2">
-                            <input className="text-white hidden bg-[#4e4e4e]" type="text" name="email" value={user?.email} />
-                            <input className="text-white hidden bg-[#4e4e4e]" type="text" name="id" value={user?.id} />
-                            <input className="text-white hidden bg-[#4e4e4e]" type="text" name="firstName" value={user?.full_name}  />
-                            <input className="text-white hidden bg-[#4e4e4e]" type="text" name="lastName" value={user?.username}  />
-                            <input className="text-white hidden bg-[#4e4e4e]" type="text" name="title" value={user?.title}  />
-                            <div className="flex flex-col justify-center items-center mt-20 gap-4">
-                                <Button type="submit" variant='destructive' className="w-fit flex flex-row gap-2 items-center" onClick={() => setloading(true)}>
-                                {
-                                    loading ? <Loader2 className="mr-2 h-6 w-6 animate-spin text-white" /> :  ( <p className="flex flex-row gap-2 items-center"><ShieldOff/>{`Register for Notifications [BETA]`} </p> ) 
-                                }
-                                </Button>
-                                <p className="text-md text-slate-400 italic">Note - This feature is still in Beta mode and thus you may face some errors after enabling it!</p>
-                            </div>
-                        </form>
+                        <div className="flex flex-col gap-2">
+                            <Button variant='destructive' className="w-fit flex flex-row gap-2 items-center" onClick={registerNotifications}>
+                              {
+                                loading ? <Loader2 className="mr-2 h-6 w-6 animate-spin text-white" /> :  ( <p className="flex flex-row gap-2 items-center"><ShieldOff/>{`Register for Notifications [BETA]`} </p> ) 
+                              }
+                            </Button>
+                        </div>
+
                     </TabsContent>
                 </Tabs>
             </ScrollArea>

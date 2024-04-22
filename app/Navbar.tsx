@@ -53,7 +53,7 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
 
 function NavbarFixed({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [userId, setuserId] = useState('');
+  const [userId, setuserId] = useState<string | null>(null);
   const supabase = createClientComponentClient();
   useMemo(() => {
     const fetchUser = async () => {
@@ -94,31 +94,36 @@ function NavbarFixed({ children }: { children: React.ReactNode }) {
           </svg>
           <p className="text-xl text-white">IDEA Clinic</p>
         </Link>
-        <NovuProvider
-          subscriberId={userId}
-          applicationIdentifier='UnWOs2G6SZhx'
-          // styles={styles}
-        >
-          <PopoverNotificationCenter
-            onNotificationClick={onNotificationClick}
-            colorScheme='dark'
-            position='bottom'
+        { userId && (
+          <NovuProvider
+            subscriberId={userId}
+            applicationIdentifier='UnWOs2G6SZhx'
+            // styles={styles}
           >
-            {({ unseenCount }) => (
-              <div className='w-full flex flex-row items-center'>
-                <NotificationBell unseenCount={unseenCount} />
-              </div>
-            )}
-          </PopoverNotificationCenter>
-        </NovuProvider>
+            <PopoverNotificationCenter
+              onNotificationClick={onNotificationClick}
+              colorScheme='dark'
+              position='bottom'
+            >
+              {({ unseenCount }) => (
+                <div className='w-full flex flex-row items-center'>
+                  <NotificationBell unseenCount={unseenCount} />
+                </div>
+              )}
+            </PopoverNotificationCenter>
+          </NovuProvider>
+        )}
 
       </div>
-      <ul className="flex gap-8 items-center text-white/50 list-none ">
+      <ul className="flex gap-8 items-center text-white/50 list-none backdrop-blur-sm ">
         <li className="px-2 text-md transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 hover:text-white">
           <Link href={'/team'}>Team</Link>
         </li>
         <li className="px-2 text-md transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 hover:text-white">
           <Link href={'/forum'}>Forum</Link>
+        </li>
+        <li className="px-2 text-md transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 hover:text-white">
+          <Link href={'/forum/all-posts?page=1'}>All Posts</Link>
         </li>
       </ul>
       <div className="px-4 py-2 ml-2 text-white bg-black rounded-full text-md transition ease-in-out delay-150 ">

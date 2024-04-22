@@ -35,8 +35,6 @@ export default function Page() {
 
   return (
     <main className="w-full flex flex-col justify-center h-screen gap-20 items-center bg-[#090909] text-white overflow-hidden">
-      
-
       <LampContainer className="-mt-32">
         <motion.h1
           initial={{ opacity: 0.5, y: 100 }}
@@ -51,10 +49,9 @@ export default function Page() {
           Discover Ideas
         </motion.h1>
       </LampContainer>
-      <RenderPost offset={0} limit={3} />
-
-
-      
+      <section className='w-screen absolute bottom-1 flex items-center justify-center max-h-[600px] overflow-y-auto  p-2'>
+        <RenderPost offset={0} limit={3} />
+      </section>
     </main>
   );
 }
