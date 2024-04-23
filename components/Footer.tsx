@@ -13,7 +13,7 @@ const Footer = () => {
                 <ul className="text-md list-none -ml-[0.0px] flex flex-col gap-[12px]">
                     <a href="/forum"><li>Forum</li></a>
                     <a href="/"><li>For You</li></a>
-                    <a href="/"><li>All Posts</li></a>
+                    <a href="/forum/all-posts?page=1"><li>All Posts</li></a>
                 </ul>
             </div>
             <div className="flex flex-col gap-3">
