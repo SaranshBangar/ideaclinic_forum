@@ -180,9 +180,10 @@ export default function Page() {
 
   return (
     <main className="flex bg-slate-800 min-h-screen w-screen flex-col items-center justify-center">
-      <h1 className="relative z-10 my-6 text-lg md:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
+      {/* <h1 className="relative z-10 my-6 text-lg md:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
         Create Your Post
-      </h1>
+      </h1> */}
+      <div className="mt-20"></div>
       <form method="post" className="w-10/12 flex flex-row my-4 z-[1000] justify-evenly items-center">
         <div className="px-2">
           <Label htmlFor="label" className="mb-3 text-lg justify-start w-full flex font-thin text-white ml-8">
